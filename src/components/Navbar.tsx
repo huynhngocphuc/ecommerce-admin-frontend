@@ -2,10 +2,10 @@ import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, useMediaQuery } from '@mui/material';
 
 interface NavbarProps {
-  toggleDarkMode: () => void;
+  // toggleDarkMode: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode }) => {
+const Navbar: React.FC<NavbarProps> = ({  }) => {
   const isMobile = useMediaQuery('(max-width:600px)');
 
   return (
@@ -14,7 +14,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleDarkMode }) => {
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           E-commerce Admin
         </Typography>
-        <IconButton edge="end" color="inherit" onClick={toggleDarkMode}>
+        <IconButton edge="end" color="inherit">
           {/* {isMobile ? <Brightness4 /> : <Brightness7 />} */}
         </IconButton>
       </Toolbar>
