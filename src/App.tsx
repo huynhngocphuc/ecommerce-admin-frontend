@@ -8,7 +8,9 @@ import {
 import Navbar from "./components/Navbar"; // Import the Navbar component
 import Sidebar from "./components/Sidebar"; // Import the Sidebar component
 import Footer from "./components/Footer"; // Import the Footer component
-import './assets/styles/main.scss'; // Import the main SCSS file
+import MainLayout from "./layouts/MainLayout";
+import AuthLayout from "./layouts/AuthLayout";
+import "./assets/styles/main.scss"; // Import the main SCSS file
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
@@ -24,23 +26,27 @@ const isAuthenticated = (): boolean => {
 const App: React.FC = () => {
   return (
     <Router>
-      <Navbar />
-      <Sidebar />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route
-            path="/dashboard"
-            element={
-              isAuthenticated() ? <DashboardPage /> : <Navigate to="/" />
-            }
-          />
-          <Route path="/profile/:id" element={<ProfilePage />} />
-          <Route path="*" element={<NotFound />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route
+              path="/dashboard"
+              element={
+                isAuthenticated() ? <DashboardPage /> : <Navigate to="/" />
+              }
+            />
+            <Route path="/profile/:id" element={<ProfilePage />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<div>Login page</div>} />
+            <Route path="/register" element={<div>Register page</div>} />
+          </Route>
         </Routes>
       </Suspense>
-
       <Footer />
     </Router>
   );
