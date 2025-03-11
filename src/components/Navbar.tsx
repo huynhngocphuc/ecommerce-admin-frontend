@@ -12,7 +12,7 @@ const Navbar: React.FC<NavbarProps> = ({  }) => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          E-commerce Admin
+          E-commerce
         </Typography>
         <IconButton edge="end" color="inherit">
           {/* {isMobile ? <Brightness4 /> : <Brightness7 />} */}

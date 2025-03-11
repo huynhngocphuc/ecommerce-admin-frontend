@@ -47,7 +47,7 @@ const App: React.FC = () => {
           </Route>
         </Routes>
       </Suspense>
-      <Footer />
+      
     </Router>
   );
 };
