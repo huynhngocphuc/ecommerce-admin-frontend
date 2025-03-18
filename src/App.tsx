@@ -10,7 +10,6 @@ import Sidebar from "./components/Sidebar"; // Import the Sidebar component
 import Footer from "./components/Footer"; // Import the Footer component
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
-import "./assets/styles/main.scss"; // Import the main SCSS file
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));

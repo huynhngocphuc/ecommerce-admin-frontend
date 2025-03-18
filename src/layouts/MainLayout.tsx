@@ -14,19 +14,23 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: "block",
         minHeight: "100vh",
         backgroundColor: `${grey.A100}`,
+        margin: "10px",
       }}
     >
-      <Navbar />
-      <Sidebar />
-      <Container>
+      <Box className="sidebar">
+        <Sidebar />
+      </Box>
+      <Box className="navbar">
+        <Navbar />
+      </Box>
+      {/* <Container>
         <Outlet />
-      </Container>
+      </Container> */}
 
-      <Footer />
+      {/* <Footer /> */}
     </Box>
   );
 };
