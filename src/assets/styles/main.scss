@@ -1,8 +1,23 @@
+@import "reset";
 $primary-color: #ff0000;
-.sidebar{
-    background-color: $primary-color;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+$background-color: #f0f5f9;
+$color-light: #ffffff;
+$box-shadow-default: 0 2px 6px rgba(37, 83, 185, 0.1);
+
+.main_background {
+  background-color: $background-color;
+  display: flex;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.sidebarBox {
+  height: calc(100% - 40px);
+  background-color: #ffffff;
+  width: 274px;
+  top: 20px;
+  left: 20px;
+  position: fixed;
+  box-shadow: $box-shadow-default;
+  border-radius: 10px;
 }

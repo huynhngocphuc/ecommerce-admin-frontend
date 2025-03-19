@@ -12,26 +12,19 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <Box
-      sx={{
-        display: "block",
-        minHeight: "100vh",
-        backgroundColor: `${grey.A100}`,
-        margin: "10px",
-      }}
-    >
-      <Box className="sidebar">
-        <Sidebar />
-      </Box>
-      <Box className="navbar">
+    <div className="main_background">
+      {/* <Box className="sidebar"> */}
+        <Sidebar/>
+      {/* </Box> */}
+      {/* <Box className="navbar">
         <Navbar />
-      </Box>
+      </Box> */}
       {/* <Container>
         <Outlet />
       </Container> */}
 
       {/* <Footer /> */}
-    </Box>
+    </div>
   );
 };
 
