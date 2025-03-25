@@ -1,0 +1,24 @@
+.logo {
+  background-color: rgb(255, 252, 252);
+  height: 74px;
+  padding: 0 10px;
+  .logo_link {
+    display: flex;
+    height: 100%;
+    text-decoration: none;
+    align-items: center;
+    .logo_img {
+      border-radius: 20%;
+      height: 100%;
+    }
+    .logo_text {
+      font-size: 40px;
+      font-weight: 700;
+      margin: 0 0 0 10px;
+      color: #000000;
+    }
+  }
+}
+.sidebarMenu{
+  height: calc(100% - 200px);
+}
