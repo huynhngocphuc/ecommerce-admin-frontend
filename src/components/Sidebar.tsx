@@ -1,29 +1,20 @@
 import React from "react";
-import {
-  Drawer,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Avatar,
-  Typography,
-  Badge,
-  Box,
-} from "@mui/material";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
-import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { styled } from "@mui/material/styles";
+import { Drawer, Box } from "@mui/material";
 
 const Sidebar = () => {
   return (
     <Drawer variant="persistent" open={true}>
-      <Box
-        className="sidebarBox"
-       
-      ></Box>
+      <Box className="sidebarBox">
+        <Box className="logo">
+          <a className="logo_link" href="/">
+            <img className="logo_img" src="images/logo_black.png" alt="logo" />
+            <h1 className="logo_text">GirlHaf</h1>
+          </a>
+        </Box>
+        <Box className="sidebarMenu">
+          
+        </Box>
+      </Box>
     </Drawer>
   );
 };
