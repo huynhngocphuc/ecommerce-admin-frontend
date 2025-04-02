@@ -1,7 +1,20 @@
+@import 'variables';
+.sidebarBox {
+  height: calc(100% - 40px);
+  background-color: #ffffff;
+  width: 274px;
+  top: 20px;
+  left: 20px;
+  position: fixed;
+  box-shadow: $box-shadow-default;
+  border-radius: 10px;
+}
+
 .logo {
-  background-color: rgb(255, 252, 252);
   height: 74px;
   padding: 0 10px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   .logo_link {
     display: flex;
     height: 100%;
