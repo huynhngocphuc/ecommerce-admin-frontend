@@ -39,13 +39,10 @@
   scrollbar-gutter: stable;
   padding: 0 0 0 20px!important;
   .MuiListItemButton-root {
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
     &:hover {
       background-color: rgba($primary-color, 0.1);
       color: rgba($primary-color, 0.9);
-      .MuiListItemIcon-root {
-        color: rgba($primary-color, 0.5);
-      }
     }
   }
 }
