@@ -1,5 +1,8 @@
 import React, { useState, Fragment } from "react";
-import { Drawer, Box, List, ListItemButton } from "@mui/material";
+import { Drawer, Box, List, ListItemButton, Typography, ButtonBase, Button } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+
 // or
 import { ListSubheader } from "@mui/material";
 import { ListItem } from "@mui/material";
@@ -11,6 +14,8 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Label } from "@mui/icons-material";
 import HomeMaxOutlinedIcon from "@mui/icons-material/HomeMaxOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
+import IconButton from "@mui/material/IconButton";
 
 const Sidebar = () => {
   const [submenuState, setSubmenuState] = useState<{ [key: string]: boolean }>({});
@@ -88,7 +93,13 @@ const Sidebar = () => {
                     },
                   }}
                 >
-                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemIcon
+                    sx={{
+                      color: activeItem === item.key ? "rgba(0, 133, 219, 0.9)" : "inherit",
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
                   <ListItemText>{item.label}</ListItemText>
                   {item.hasSubmenu &&
                     (submenuState[item.key || ""] ? <ExpandLess /> : <ExpandMore />)}
@@ -111,7 +122,16 @@ const Sidebar = () => {
                             },
                           }}
                         >
-                          <ListItemIcon>{subitem.icon}</ListItemIcon>
+                          <ListItemIcon
+                            sx={{
+                              color:
+                                activeItem === `${item.key}-${subIndex}`
+                                  ? "rgba(0, 133, 219, 0.9)"
+                                  : "inherit",
+                            }}
+                          >
+                            {subitem.icon}
+                          </ListItemIcon>
                           <ListItemText>{subitem.label}</ListItemText>
                         </ListItemButton>
                       ))}
@@ -121,6 +141,32 @@ const Sidebar = () => {
               </Fragment>
             ))}
           </List>
+        </Box>
+        <Box
+          className="sidebarFooter"
+          sx={{
+            padding: "16px 24px",
+            backgroundColor: "rgba(0, 133, 219, 0.1)",
+            margin: "24px",
+            borderRadius: "18px",
+          }}
+        >
+          <Stack direction={"row"} spacing={2} alignItems="center">
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" sx={{ height: "45px" }} />
+              <Box sx={{ marginLeft: "16px" }}>
+                <Typography variant="h5" component="h5" sx={{ fontWeight: "600", fontSize: "18px" }}>
+                  Peter
+                </Typography>
+                <Typography variant="h6" component="h6" sx={{fontSize:"14px"}}>
+                  admin
+                </Typography>
+              </Box>
+            </Box>
+            <IconButton sx={{ borderRadius: "50%", minWidth: "40px", height: "40px" }}>
+              <LogoutIcon sx={{ color: "rgba(0, 133, 219, 0.9)" }} />
+            </IconButton>
+          </Stack>
         </Box>
       </Box>
     </Drawer>
