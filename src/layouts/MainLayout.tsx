@@ -14,7 +14,13 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className="main_background">
       {/* <Box className="sidebar"> */}
-        <Sidebar/>
+      <Sidebar />
+      <Box sx={{height: "100%", width: "100%", marginLeft: "280px" }}>
+        <Container maxWidth="lg">
+          <Navbar />
+          <Outlet/>
+        </Container>
+      </Box>
       {/* </Box> */}
       {/* <Box className="navbar">
         <Navbar />

@@ -89,7 +89,7 @@ const Sidebar = () => {
                     marginBottom: "2px",
                     "&.Mui-selected": {
                       backgroundColor: "rgba(0, 133, 219, 0.1)",
-                      color: "rgba(0, 133, 219, 0.9)", // Add rgba color
+                      color: "rgba(0, 133, 219, 0.9)",
                     },
                   }}
                 >
@@ -118,7 +118,7 @@ const Sidebar = () => {
                             pl: 4,
                             "&.Mui-selected": {
                               backgroundColor: "rgba(0, 133, 219, 0.1)",
-                              color: "rgba(0, 133, 219, 0.9)", // Add rgba color
+                              color: "rgba(0, 133, 219, 0.9)", 
                             },
                           }}
                         >
