@@ -40,7 +40,7 @@ const Sidebar = () => {
       key: "dashboard",
       submenu: [
         {
-          label: "Subitem 1",
+          label: "quản lý quần áo",
           icon: <HomeIcon />,
         },
         {
@@ -67,7 +67,7 @@ const Sidebar = () => {
         <Box className="logo">
           <a className="logo_link" href="/">
             <img className="logo_img" src="images/logo_black.png" alt="logo" />
-            <h1 className="logo_text">GirlHaf</h1>
+            <h1 className="logo_text" >GirlHaf</h1>
           </a>
         </Box>
         <Box className="sidebarMenu" sx={{ padding: "0 20px" }}>

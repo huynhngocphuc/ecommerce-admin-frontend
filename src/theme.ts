@@ -4,9 +4,19 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     background:{
-      default:'#f0f5f9',
+      default:'#fff',
     }
   },
+  components:{
+    MuiButton:{
+      styleOverrides:{
+        root:{
+        textTransform:'none',
+        color:'#000'
+        }
+      }
+    }
+  }
 });
 
 const darkTheme = createTheme({

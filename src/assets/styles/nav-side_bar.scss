@@ -27,6 +27,7 @@
     .logo_text {
       font-size: 40px;
       font-weight: 700;
+      font-family: cursive;
       margin: 0 0 0 10px;
       color: #000000;
     }
@@ -45,4 +46,13 @@
     //   color: rgba($primary-color, 0.9);
     // }
   }
+}
+
+
+
+.btn-rounded-circle-40{
+  min-width: 40px !important;
+    padding: 0 !important;
+    height: 40px;
+    border-radius: 100% !important;
 }
