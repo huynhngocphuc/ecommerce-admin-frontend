@@ -1,0 +1,15 @@
+// Import variables for consistency
+@import './_variables';
+
+.nav-side-bar {
+  background-color: $primary-color;
+  padding: $spacing-unit;
+  color: white;
+}
+
+.nav-item {
+  margin-bottom: $spacing-unit;
+  font-family: $font-family;
+}
+
+// ...existing code...

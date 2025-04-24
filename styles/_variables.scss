@@ -1,0 +1,19 @@
+// Consolidate duplicate styles and ensure modularity
+// Define reusable variables for colors, spacing, and fonts
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$font-family: 'Arial, sans-serif';
+$spacing-unit: 8px;
+
+// Example usage of variables
+body {
+  font-family: $font-family;
+  margin: 0;
+  padding: 0;
+  background-color: $primary-color;
+}
+
+.nav-bar {
+  background-color: $secondary-color;
+  padding: $spacing-unit;
+}
