@@ -15,7 +15,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     <div className="main_background">
       {/* <Box className="sidebar"> */}
       <Sidebar />
-      <Box sx={{ height: "100%", width: "100%", marginLeft: "280px" }}>
+      <Box sx={{ marginLeft: "280px" }}>
         <Container maxWidth="lg">
           <Navbar />
           <Box sx={{padding:"24px 0px"}}>
