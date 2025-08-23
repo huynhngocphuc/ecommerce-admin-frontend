@@ -1,36 +1,42 @@
+// src/theme.ts
 import { createTheme } from '@mui/material/styles';
 
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
+    primary: {
+      main: '#0052CC', // Xanh dương công nghệ
+    },
+    secondary: {
+      main: '#FF6F00', // Cam nhấn mạnh CTA
+    },
     background: {
-      default: '#fff',
+      default: '#F5F5F5',
+      paper: '#fff',
+    },
+    error: {
+      main: '#dc3545',
+    },
+    success: {
+      main: '#28a745',
+    },
+    warning: {
+      main: '#ffc107',
+    },
+    text: {
+      primary: '#212121',
+      secondary: '#333',
     },
   },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-          color: '#000',
-          borderRadius: '8px', // Added border radius
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          borderRadius: '10px',
-        },
-      },
-    }
+  typography: {
+    fontFamily: 'Roboto, Arial, sans-serif',
+    fontSize: 14,
+    fontWeightRegular: 400,
+    fontWeightBold: 700,
+  },
+  shape: {
+    borderRadius: 8,
   },
 });
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark'
-  },
-});
-
-export { lightTheme, darkTheme };
+export { lightTheme };

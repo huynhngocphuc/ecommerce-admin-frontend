@@ -51,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
             </Box>
             <Box >
               <Button sx={{borderRadius:"25px",minWidth:'64px'}}>
-                <Avatar alt="Remy Sharp" src="images/logo_black.png" />
+                <Avatar alt="Sharp" src="images/logo_black.png" />
                 <Box sx={{ marginLeft: "16px"}}>
                   <Typography variant="h6" component="h6" fontSize="1.2rem">
                     Peter
