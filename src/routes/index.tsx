@@ -1,11 +1,13 @@
 // src/routes/index.tsx
 import React from "react";
 import { useRoutes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 // Import các page component
 // import HomePage from "../pages/HomePage";
 // import ProductPage from "../pages/ProductPage";
 // import LoginPage from "../pages/LoginPage";
+import LoginPage from "../pages/Login/LoginPage";
 
 const routes = [
   {
@@ -14,7 +16,7 @@ const routes = [
   },
   {
     path: "/login",
-    element: <h1>Đăng nhập</h1>, // Thay bằng <LoginPage /> sau này
+    element: <LoginPage />,
   },
   {
     path: "/products",
@@ -24,5 +26,5 @@ const routes = [
 
 export default function AppRoutes() {
   const element = useRoutes(routes);
-  return element;
+  return element
 }

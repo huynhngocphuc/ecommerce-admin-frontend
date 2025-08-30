@@ -1,6 +1,14 @@
+export type Role = 'ADMIN' | 'STAFF' | 'VIEWER';
+
 export interface User {
   id: string;
-  email: string;
   name: string;
-  avatarUrl: string;
+  email: string;
+  roles: Role[];
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+  remember: boolean;
 }
