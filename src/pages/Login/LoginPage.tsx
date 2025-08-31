@@ -29,24 +29,26 @@ const LoginPage: React.FC = () => {
 
   const from = location.state?.from?.pathname || '/';
 
-//   const onSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     setError(null);
-//     setLoading(true);
-//     try {
-//       await login({ email, password, remember });
-//       navigate(from, { replace: true });
-//     } catch (err: any) {
-//       const msg = err?.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.';
-//       setError(msg);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("🚀 ~ onSubmit ~ e:", e)
+    
+    // setError(null);
+    // setLoading(true);
+    // try {
+    //   await login({ email, password, remember });
+    //   navigate(from, { replace: true });
+    // } catch (err: any) {
+    //   const msg = err?.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.';
+    //   setError(msg);
+    // } finally {
+    //   setLoading(false);
+    // }
+  };
 
   return (
     <Container maxWidth="xs" sx={{ mt: 10 }}>
-      <Box component="form" onSubmit={() => {}} noValidate>
+      <Box component="form" onSubmit={onSubmit} noValidate>
         <Typography variant="h5" fontWeight={600} gutterBottom>
           Đăng nhập quản trị
         </Typography>

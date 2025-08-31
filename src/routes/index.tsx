@@ -2,7 +2,7 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
-
+import ProtectedRoute from "./ProtectedRoute";
 // Import các page component
 // import HomePage from "../pages/HomePage";
 // import ProductPage from "../pages/ProductPage";
@@ -12,7 +12,11 @@ import LoginPage from "../pages/Login/LoginPage";
 const routes = [
   {
     path: "/",
-    element: <h1>Trang chủ</h1>, // Thay bằng <HomePage /> sau này
+    element: (
+      <ProtectedRoute>
+        <h1>Trang chủ</h1>
+      </ProtectedRoute>
+    ), // Thay bằng <HomePage /> sau này
   },
   {
     path: "/login",
@@ -26,5 +30,5 @@ const routes = [
 
 export default function AppRoutes() {
   const element = useRoutes(routes);
-  return element
+  return element;
 }
