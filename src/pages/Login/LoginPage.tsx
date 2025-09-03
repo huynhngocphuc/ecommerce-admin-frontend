@@ -27,23 +27,33 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const from = location.state?.from?.pathname || '/';
+
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("🚀 ~ onSubmit ~ e:", e)
-    
-    // setError(null);
-    // setLoading(true);
-    // try {
-    //   await login({ email, password, remember });
-    //   navigate(from, { replace: true });
-    // } catch (err: any) {
-    //   const msg = err?.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.';
-    //   setError(msg);
-    // } finally {
-    //   setLoading(false);
-    // }
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('http://localhost:4000/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, remember }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+      setError(data.message || 'Đăng nhập thất bại');
+      } else {
+      // Xử lý đăng nhập thành công, ví dụ chuyển trang
+      
+      navigate('/');
+      }
+    } catch (err: any) {
+      setError('Lỗi kết nối đến máy chủ');
+    } finally {
+      setLoading(false);
+    }
+    console.log("🚀 ~ onSubmit ~ e:", e,email, password)
+
   };
 
   return (
