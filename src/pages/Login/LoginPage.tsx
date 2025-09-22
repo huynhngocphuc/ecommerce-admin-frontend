@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Alert,
   Box,
@@ -10,50 +10,63 @@ import {
   InputAdornment,
   TextField,
   Typography,
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 // import { useAuth } from '../auth/AuthContext';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/store";
+import { login as loginAction } from "../../redux/slices/auth.slice";
+import { setAccessToken } from "../../utils/token";
 
 const LoginPage: React.FC = () => {
-//   const { login } = useAuth();
+  //   const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation() as any;
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
     try {
-      const response = await fetch('http://localhost:4000/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, remember }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-      setError(data.message || 'Đăng nhập thất bại');
-      } else {
-      // Xử lý đăng nhập thành công, ví dụ chuyển trang
-      
-      navigate('/');
-      }
-    } catch (err: any) {
-      setError('Lỗi kết nối đến máy chủ');
-    } finally {
-      setLoading(false);
+      dispatch()
+    } catch (e) {
+      console.log(e); // true
+      // console.log(e.message); // "Hello"
+      // console.log(e.name); // "EvalError"
+      // console.log(e.stack); // Stack of the error
     }
-    console.log("🚀 ~ onSubmit ~ e:", e,email, password)
-
+    // setLoading(true);
+    // setError(null);
+    // try {
+    //   const response = await fetch('http://localhost:4000/api/auth/login', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ email, password, remember }),
+    //   });
+    //   const data = await response.json();
+    //   if (!response.ok) {
+    //     setError(data.message || 'Đăng nhập thất bại');
+    //   } else {
+    //     // If API returns accessToken and user roles, store token in memory and update redux
+    //     if (data.accessToken) {
+    //       setAccessToken(data.accessToken);
+    //     }
+    //     // Dispatch roles if provided (falls back to empty array)
+    //     dispatch(loginAction({ roles: data.user?.roles || data.roles || [] }));
+    //     navigate('/');
+    //   }
+    // } catch (err: any) {
+    //   setError('Lỗi kết nối đến máy chủ');
+    // } finally {
+    //   setLoading(false);
+    // }
+    // console.log("🚀 ~ onSubmit ~ e:", e,email, password)
   };
 
   return (
@@ -81,7 +94,7 @@ const LoginPage: React.FC = () => {
 
         <TextField
           label="Mật khẩu"
-          type={showPw ? 'text' : 'password'}
+          type={showPw ? "text" : "password"}
           fullWidth
           margin="normal"
           value={password}
@@ -91,7 +104,11 @@ const LoginPage: React.FC = () => {
             input: {
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton aria-label="toggle password" onClick={() => setShowPw((s) => !s)} edge="end">
+                  <IconButton
+                    aria-label="toggle password"
+                    onClick={() => setShowPw((s) => !s)}
+                    edge="end"
+                  >
                     {showPw ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
@@ -107,7 +124,7 @@ const LoginPage: React.FC = () => {
         />
 
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }} disabled={loading}>
-          {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+          {loading ? "Đang đăng nhập..." : "Đăng nhập"}
         </Button>
       </Box>
     </Container>

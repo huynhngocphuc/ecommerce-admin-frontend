@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
 import authReducer from './slices/auth.slice';
+import loadingReducer from './slices/loading.slice';
 // Import các slice reducer ở đây nếu có
 // import userReducer from '../features/auth/us1erSlice';
 // import productReducer from '../features/products/productSlice';
@@ -7,6 +9,7 @@ import authReducer from './slices/auth.slice';
 const store = configureStore({
 	reducer: {
 		auth: authReducer,
+		loading: loadingReducer,
 		// user: userReducer,
 		// products: productReducer,
 	},
@@ -16,3 +19,6 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export { store };
+
+// Typed hook helper (optional): import { useAppDispatch } from './store'
+export const useAppDispatch: () => AppDispatch = useDispatch as any;
