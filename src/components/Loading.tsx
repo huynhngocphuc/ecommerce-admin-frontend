@@ -7,12 +7,10 @@ import { RootState } from '../redux/store';
 
 const Loading: React.FC = () => {
     const isLoading = useSelector((state: RootState) => state.loading.isLoading);
-
-
   return (
-      <Backdrop open={isLoading} >
+      isLoading ? <Backdrop open={isLoading} >
         <CircularProgress size="3rem" />
-      </Backdrop>
+      </Backdrop> : null
   );
 };
 

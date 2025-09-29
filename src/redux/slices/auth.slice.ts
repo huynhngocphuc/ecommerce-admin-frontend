@@ -15,7 +15,10 @@ export const login = createAsyncThunk(
   'auth/login',
   async (payload: { email: string; password: string }) => {
     try {
-      const resp = await fetch('http://localhost:4000/api/auth/login', {
+      
+      console.log("🚀 ~ login:", payload)
+
+      const resp = await fetch('http://localhost:4000/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -37,7 +40,19 @@ const authSlice = createSlice({
   reducers: {
     
   },
-  extraReducers: (builder) => {}
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state, action) => {
+      console.log("🚀 ~ action:", action)
+
+      state.isAuthenticated = true;
+      state.userRoles = action.payload.user.roles;
+    });
+    builder.addCase(login.rejected, (state, action) => {
+      console.log("🚀 ~ action:", action)
+      state.isAuthenticated = false;
+      state.userRoles = [];
+    });
+  }
 });
 
 

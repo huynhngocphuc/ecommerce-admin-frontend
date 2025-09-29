@@ -15,7 +15,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 // import { useAuth } from '../auth/AuthContext';
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/store";
-import { login as loginAction } from "../../redux/slices/auth.slice";
+import { login, login as loginAction } from "../../redux/slices/auth.slice";
 import { setAccessToken } from "../../utils/token";
 
 const LoginPage: React.FC = () => {
@@ -34,7 +34,7 @@ const LoginPage: React.FC = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      dispatch()
+      await dispatch(login({ email, password }));
     } catch (e) {
       console.log(e); // true
       // console.log(e.message); // "Hello"
