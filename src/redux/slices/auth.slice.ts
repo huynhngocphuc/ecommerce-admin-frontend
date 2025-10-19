@@ -1,6 +1,11 @@
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Role } from '../../features/auth/type';
+import {showLoading, hideLoading, } from './loading.slice';
+import { addAlert, clearAlerts } from './stackAlert.slice';
+import { http } from '../../utils/http';
+import { ENDPOINTS } from '../../constances/endpoint';
+
 type AuthState = {
   isAuthenticated: boolean;
   userRoles: Role[];
@@ -13,23 +18,24 @@ const initialState: AuthState = {
 
 export const login = createAsyncThunk(
   'auth/login',
-  async (payload: { email: string; password: string }) => {
+  async (payload: { email: string; password: string }, { dispatch, rejectWithValue }) => {
     try {
-      
-      console.log("🚀 ~ login:", payload)
-
-      const resp = await fetch('http://localhost:4000/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (!resp.ok) {
-        await resp.json();
+      dispatch(showLoading());
+      dispatch(clearAlerts());
+      const resp = await http.put(ENDPOINTS.LOGIN, payload);
+      console.log("🚀 ~ resp:", resp)
+      if (!resp.success) {
+        dispatch(hideLoading())
+        dispatch(addAlert({ message: resp.errors || 'Login failed', severity: 'error' }));
+        return rejectWithValue(resp);
       }
-      return await resp.json(); // { accessToken, user }
+      dispatch(hideLoading())
+      dispatch(addAlert({ message: resp.message || 'Login successful', severity: 'success' }));
+      return resp;
     } catch (err: any) {
-      console.log("🚀 ~ err:", err)
-      
+        dispatch(hideLoading())
+        dispatch(addAlert({ message: err.message || 'Login failed', severity: 'error' }));
+        return rejectWithValue(err);
     }
   }
 );
@@ -42,13 +48,11 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
-      console.log("🚀 ~ action:", action)
+      console.log("🚀 ~ action: fulfilled")
 
       state.isAuthenticated = true;
-      state.userRoles = action.payload.user.roles;
     });
     builder.addCase(login.rejected, (state, action) => {
-      console.log("🚀 ~ action:", action)
       state.isAuthenticated = false;
       state.userRoles = [];
     });

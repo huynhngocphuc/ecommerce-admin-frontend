@@ -36,37 +36,9 @@ const LoginPage: React.FC = () => {
     try {
       await dispatch(login({ email, password }));
     } catch (e) {
-      console.log(e); // true
-      // console.log(e.message); // "Hello"
-      // console.log(e.name); // "EvalError"
-      // console.log(e.stack); // Stack of the error
+      console.log(e);
     }
-    // setLoading(true);
-    // setError(null);
-    // try {
-    //   const response = await fetch('http://localhost:4000/api/auth/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ email, password, remember }),
-    //   });
-    //   const data = await response.json();
-    //   if (!response.ok) {
-    //     setError(data.message || 'Đăng nhập thất bại');
-    //   } else {
-    //     // If API returns accessToken and user roles, store token in memory and update redux
-    //     if (data.accessToken) {
-    //       setAccessToken(data.accessToken);
-    //     }
-    //     // Dispatch roles if provided (falls back to empty array)
-    //     dispatch(loginAction({ roles: data.user?.roles || data.roles || [] }));
-    //     navigate('/');
-    //   }
-    // } catch (err: any) {
-    //   setError('Lỗi kết nối đến máy chủ');
-    // } finally {
-    //   setLoading(false);
-    // }
-    // console.log("🚀 ~ onSubmit ~ e:", e,email, password)
+
   };
 
   return (

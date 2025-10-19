@@ -1,24 +1,42 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 type Alert = {
+    id: string;
     message: string;
     severity: 'error' | 'warning' | 'info' | 'success';
-    id: string;
+}
+
+type AddAlertPayload = {
+    id?: string;
+    message: string | string[];
+    severity: 'error' | 'warning' | 'info' | 'success';
 }
 const initialState = {
-    listAlert: [
-        { message: "This is an", severity: "error", id: "1" },
-        { message: "This is a ", severity: "warning", id: "2" },
-        { message: "This is an ", severity: "info", id: "3" },
-        { message: "This is a ", severity: "success", id: "4" },
-    ] as Alert[]
+    listAlert: [] as Alert[]
 };
 
 const stackAlertSlice = createSlice({
     name: 'stackAlert',
     initialState,
-    reducers:{
-        addAlert: (state, action) => {
-            state.listAlert.push(action.payload);
+    reducers: {
+        addAlert: (state, action: PayloadAction<AddAlertPayload>) => {
+            const { message, severity } = action.payload;
+        if (Array.isArray(message)) {
+            const alerts = message.map(msg => ({
+                id: action.payload.id || crypto.randomUUID(),
+                message: msg,
+                severity
+            }));
+            state.listAlert.push(...alerts);
+        }
+        else {
+            // Nếu message là string, tạo 1 alert
+            state.listAlert.push({
+                id: action.payload.id || crypto.randomUUID(),
+                message,
+                severity,
+            });
+        }
         },
         removeAlert: (state, action) => {
             state.listAlert = state.listAlert.filter(alert => alert.id !== action.payload);
