@@ -3,6 +3,7 @@ import React from "react";
 import { useRoutes } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
+import DashBoardPage from "../pages/DashBoard/DashBoardPage";
 // Import các page component
 // import HomePage from "../pages/HomePage";
 // import ProductPage from "../pages/ProductPage";
@@ -25,6 +26,14 @@ const routes = [
   {
     path: "/products",
     element: <h1>Danh sách sản phẩm</h1>, // Thay bằng <ProductPage /> sau này
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <ProtectedRoute>
+        <DashBoardPage />
+      </ProtectedRoute>
+    ),
   },
 ];
 

@@ -22,8 +22,7 @@ export const login = createAsyncThunk(
     try {
       dispatch(showLoading());
       dispatch(clearAlerts());
-      const resp = await http.put(ENDPOINTS.LOGIN, payload);
-      console.log("🚀 ~ resp:", resp)
+      const resp = await http.post(ENDPOINTS.LOGIN, payload);
       if (!resp.success) {
         dispatch(hideLoading())
         dispatch(addAlert({ message: resp.errors || 'Login failed', severity: 'error' }));
@@ -48,8 +47,6 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
-      console.log("🚀 ~ action: fulfilled")
-
       state.isAuthenticated = true;
     });
     builder.addCase(login.rejected, (state, action) => {

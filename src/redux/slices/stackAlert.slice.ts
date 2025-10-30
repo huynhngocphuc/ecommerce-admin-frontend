@@ -21,6 +21,7 @@ const stackAlertSlice = createSlice({
     reducers: {
         addAlert: (state, action: PayloadAction<AddAlertPayload>) => {
             const { message, severity } = action.payload;
+            console.log("🚀 ~ message:", message)
         if (Array.isArray(message)) {
             const alerts = message.map(msg => ({
                 id: action.payload.id || crypto.randomUUID(),
@@ -30,7 +31,6 @@ const stackAlertSlice = createSlice({
             state.listAlert.push(...alerts);
         }
         else {
-            // Nếu message là string, tạo 1 alert
             state.listAlert.push({
                 id: action.payload.id || crypto.randomUUID(),
                 message,
