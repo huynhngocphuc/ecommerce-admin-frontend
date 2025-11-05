@@ -34,7 +34,11 @@ const LoginPage: React.FC = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(login({ email, password }));
+     const resp = await dispatch(login({ email, password }));
+     console.log("🚀 ~ onSubmit ~ resp:", resp)
+     if (resp.type === 'auth/login/fulfilled') {
+        navigate("/");
+     }
     } catch (e) {
       console.log(e);
     }

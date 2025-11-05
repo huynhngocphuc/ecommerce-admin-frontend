@@ -15,7 +15,7 @@ const routes = [
     path: "/",
     element: (
       <ProtectedRoute>
-        <h1>Trang chủ</h1>
+        <DashBoardPage />
       </ProtectedRoute>
     ), // Thay bằng <HomePage /> sau này
   },

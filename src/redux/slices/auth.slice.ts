@@ -9,11 +9,13 @@ import { ENDPOINTS } from '../../constances/endpoint';
 type AuthState = {
   isAuthenticated: boolean;
   userRoles: Role[];
+  isInitialized: boolean;
 };
 
 const initialState: AuthState = {
   isAuthenticated: false,
   userRoles: [],
+  isInitialized: false,
 };
 
 export const login = createAsyncThunk(
@@ -25,7 +27,7 @@ export const login = createAsyncThunk(
       const resp = await http.post(ENDPOINTS.LOGIN, payload);
       if (!resp.success) {
         dispatch(hideLoading())
-        dispatch(addAlert({ message: resp.errors || 'Login failed', severity: 'error' }));
+        dispatch(addAlert({ message: resp.message || 'Login failed', severity: 'error' }));
         return rejectWithValue(resp);
       }
       dispatch(hideLoading())
@@ -38,6 +40,27 @@ export const login = createAsyncThunk(
     }
   }
 );
+
+export const verifyAuth = createAsyncThunk('auth/verify', async (
+  _,{ rejectWithValue, dispatch }
+) => {
+  try {
+    const resp =  await http.get(ENDPOINTS.VERIFY_AUTH);
+    if (!resp.success) {
+      dispatch(hideLoading());
+      dispatch(addAlert({ message: resp.message || 'Verification failed', severity: 'error' }));
+      return rejectWithValue(resp);
+    }
+    dispatch(hideLoading());
+    dispatch(addAlert({ message: resp.message || 'Verification successful', severity: 'success' }));
+    return resp;
+  } catch (err: any) {
+    dispatch(hideLoading());
+    dispatch(addAlert({ message: err.message || 'Verification failed', severity: 'error' }));
+    return rejectWithValue(err);
+  }
+
+});
 
 const authSlice = createSlice({
   name: 'auth',
@@ -52,6 +75,14 @@ const authSlice = createSlice({
     builder.addCase(login.rejected, (state, action) => {
       state.isAuthenticated = false;
       state.userRoles = [];
+    });
+    builder.addCase(verifyAuth.fulfilled, (state, action) => {
+      state.isAuthenticated = true;
+      state.isInitialized = true;
+    });
+    builder.addCase(verifyAuth.rejected, (state, action) => {
+      state.isAuthenticated = false;
+      state.isInitialized = true;
     });
   }
 });
