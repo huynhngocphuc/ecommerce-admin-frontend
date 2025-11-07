@@ -9,32 +9,41 @@ import DashBoardPage from "../pages/DashBoard/DashBoardPage";
 // import ProductPage from "../pages/ProductPage";
 // import LoginPage from "../pages/LoginPage";
 import LoginPage from "../pages/Login/LoginPage";
+import PublicRoute from "./PublicRoute";
+import MainLayout from "../layouts/MainLayout";
 
 const routes = [
   {
     path: "/",
     element: (
       <ProtectedRoute>
-        <DashBoardPage />
+        <MainLayout/>
       </ProtectedRoute>
-    ), // Thay bằng <HomePage /> sau này
+    ),
+    children: [
+      {
+        index: true,
+        element: <DashBoardPage />, // Thay bằng <HomePage /> sau này
+      },
+      {
+        path: "dashboard",
+        element: <DashBoardPage />,
+      }
+    ]
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <PublicRoute>
+        <LoginPage />
+      </PublicRoute>
+    ),
   },
   {
     path: "/products",
     element: <h1>Danh sách sản phẩm</h1>, // Thay bằng <ProductPage /> sau này
-  },
-  {
-    path: "/dashboard",
-    element: (
-      <ProtectedRoute>
-        <DashBoardPage />
-      </ProtectedRoute>
-    ),
-  },
+  }
+  
 ];
 
 export default function AppRoutes() {

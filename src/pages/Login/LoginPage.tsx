@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   Container,
   FormControlLabel,
   IconButton,
@@ -16,7 +17,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/store";
 import { login, login as loginAction } from "../../redux/slices/auth.slice";
-import { setAccessToken } from "../../utils/token";
+import { AUTH_TEXTS } from "../../constants";
 
 const LoginPage: React.FC = () => {
   //   const { login } = useAuth();
@@ -49,7 +50,7 @@ const LoginPage: React.FC = () => {
     <Container maxWidth="xs" sx={{ mt: 10 }}>
       <Box component="form" onSubmit={onSubmit} noValidate>
         <Typography variant="h5" fontWeight={600} gutterBottom>
-          Đăng nhập quản trị
+          {AUTH_TEXTS.LOGIN_TITLE}
         </Typography>
 
         {error && (
@@ -59,7 +60,7 @@ const LoginPage: React.FC = () => {
         )}
 
         <TextField
-          label="Email"
+          label={AUTH_TEXTS.EMAIL_LABEL}
           type="email"
           fullWidth
           margin="normal"
@@ -69,7 +70,7 @@ const LoginPage: React.FC = () => {
         />
 
         <TextField
-          label="Mật khẩu"
+          label={AUTH_TEXTS.PASSWORD_LABEL}
           type={showPw ? "text" : "password"}
           fullWidth
           margin="normal"
@@ -95,12 +96,12 @@ const LoginPage: React.FC = () => {
 
         <FormControlLabel
           control={<Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} />}
-          label="Nhớ đăng nhập"
+          label={AUTH_TEXTS.REMEMBER_ME}
           sx={{ mt: 1 }}
         />
 
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }} disabled={loading}>
-          {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+          {loading ? <CircularProgress size={24} /> : AUTH_TEXTS.LOGIN_BUTTON}
         </Button>
       </Box>
     </Container>

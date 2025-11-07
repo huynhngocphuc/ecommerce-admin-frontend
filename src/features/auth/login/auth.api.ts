@@ -1,4 +1,4 @@
-import { ENDPOINTS } from '../../../constances/endpoint';
+import { ENDPOINTS } from '../../../constants/endpoint';
 export const login = async (username: string, password: string) => {
     // Call API to log in
     const response = await fetch(`${process.env.REACT_APP_API_URL}${ENDPOINTS.LOGIN}`, {

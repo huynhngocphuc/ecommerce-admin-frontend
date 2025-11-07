@@ -4,7 +4,7 @@ const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
 
 export const http = {
   get: async (url: string): Promise<ApiResponse> => {
-    const response = await fetch(`${BASE_URL}${url}`);
+    const response = await fetch(`${BASE_URL}${url}`, { credentials: 'include' });
     return response.json();
   },
   post: async (url: string, data: any): Promise<ApiResponse> => {

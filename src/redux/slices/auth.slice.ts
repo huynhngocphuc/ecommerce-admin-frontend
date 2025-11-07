@@ -4,7 +4,7 @@ import { Role } from '../../features/auth/type';
 import {showLoading, hideLoading, } from './loading.slice';
 import { addAlert, clearAlerts } from './stackAlert.slice';
 import { http } from '../../utils/http';
-import { ENDPOINTS } from '../../constances/endpoint';
+import { ENDPOINTS } from '../../constants/endpoint';
 
 type AuthState = {
   isAuthenticated: boolean;
@@ -48,11 +48,9 @@ export const verifyAuth = createAsyncThunk('auth/verify', async (
     const resp =  await http.get(ENDPOINTS.VERIFY_AUTH);
     if (!resp.success) {
       dispatch(hideLoading());
-      dispatch(addAlert({ message: resp.message || 'Verification failed', severity: 'error' }));
       return rejectWithValue(resp);
     }
     dispatch(hideLoading());
-    dispatch(addAlert({ message: resp.message || 'Verification successful', severity: 'success' }));
     return resp;
   } catch (err: any) {
     dispatch(hideLoading());

@@ -1,38 +1,35 @@
 import React from "react";
-import { Container, Box } from "@mui/material";
+import { Container, Box, useTheme, useMediaQuery } from "@mui/material";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { Outlet } from "react-router-dom";
-import { grey } from "@mui/material/colors";
-import Footer from "../components/Footer"; // Import the Footer component
 
-interface MainLayoutProps {
-  children?: React.ReactNode;
-}
+const MainLayout: React.FC = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div className="main_background">
-      {/* <Box className="sidebar"> */}
+    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       <Sidebar />
-      <Box sx={{ marginLeft: "280px" }}>
-        <Container maxWidth="lg">
-          <Navbar />
-          <Box sx={{padding:"24px 0px"}}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          ml: isMobile ? 0 : '100px', // Adjust based on sidebar width
+          transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+        }}
+      >
+        <Container maxWidth="xl" sx={{ py: 3 }}>
+          {/* <Navbar /> */}
+          <Box sx={{ mt: 3 }}>
             <Outlet />
           </Box>
         </Container>
       </Box>
-      {/* </Box> */}
-      {/* <Box className="navbar">
-        <Navbar />
-      </Box> */}
-      {/* <Container>
-        <Outlet />
-      </Container> */}
-
-      {/* <Footer /> */}
-    </div>
+    </Box>
   );
 };
 

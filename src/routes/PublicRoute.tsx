@@ -5,10 +5,10 @@ import { Navigate } from "react-router-dom";
 import { verifyAuth } from "../redux/slices/auth.slice";
 import { Box, CircularProgress } from "@mui/material";
 
-interface ProtectedRouteProps {
+interface PublicRouteProps {
   children: React.ReactNode;
 }
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
   const { isAuthenticated, isInitialized } = useSelector(
     (state: RootState) => state.auth
   );
@@ -32,12 +32,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       </Box>
     );
   }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;
 };
 
-export default ProtectedRoute;
+export default PublicRoute;
