@@ -1,34 +1,77 @@
 import React from "react";
-import { Container, Box, useTheme, useMediaQuery } from "@mui/material";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import { Container, Box, useTheme, useMediaQuery, Drawer, Button } from "@mui/material";
 import { Outlet } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 const MainLayout: React.FC = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [drawerOpen, setDrawerOpen] = React.useState(true);
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen);
+  };
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <Sidebar />
+    <Box
+      sx={{
+        backgroundColor: "background.default",
+        width: "100%",
+        minHeight: "100vh",
+        display: "flex",
+        padding: theme.spacing(2),
+        boxSizing: "border-box",
+        gap: theme.spacing(2),
+      }}
+    >
+      {drawerOpen && (
+        <Drawer
+          sx={{
+            backgroundColor: "secondary.main",
+            height: `calc(100vh - ${theme.spacing(4)})`,
+            width: {
+              xs: 0,
+              md: "300px",
+            },
+            "& .MuiDrawer-paper": {
+              top: theme.spacing(2), // Khoảng cách từ top
+              left: theme.spacing(2), // Khoảng cách từ left
+              height: `calc(100vh - ${theme.spacing(4)})`, // Chiều cao cố định
+              width: {
+                xs: 0,
+                md: "300px",
+              },
+              borderRadius: 1, // Tùy chọn: bo góc
+            },
+          }}
+          variant="persistent"
+          open={drawerOpen}
+        >
+          <Sidebar />
+        </Drawer>
+      )}
       <Box
-        component="main"
         sx={{
+          backgroundColor: "primary.main",
           flexGrow: 1,
-          ml: isMobile ? 0 : '100px', // Adjust based on sidebar width
-          transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-          }),
+          display: "flex",
+          flexDirection: "column",
+          height: "110vh",
+          gap: theme.spacing(2),
         }}
       >
-        <Container maxWidth="xl" sx={{ py: 3 }}>
-          {/* <Navbar /> */}
-          <Box sx={{ mt: 3 }}>
-            <Outlet />
-          </Box>
-        </Container>
+        <Box sx={{ backgroundColor: "success.main", height: "100px" }}>
+          <Button
+            sx={{ margin: 2 }}
+            variant="contained"
+            color="secondary"
+            onClick={handleDrawerToggle}
+          >
+            Click Me
+          </Button>
+        </Box>
+        <Box sx={{ backgroundColor: "warning.main", flexGrow: 1 }}></Box>
       </Box>
+      {/* <Sidebar /> */}
+      {/* <Outlet /> */}
     </Box>
   );
 };
