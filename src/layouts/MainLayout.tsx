@@ -2,7 +2,8 @@ import React from "react";
 import { Container, Box, useTheme, useMediaQuery, Drawer, Button } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-
+const drawerWidth = 300;
+const miniDrawerWidth = 90;
 const MainLayout: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -22,32 +23,35 @@ const MainLayout: React.FC = () => {
         gap: theme.spacing(2),
       }}
     >
-      {drawerOpen && (
-        <Drawer
-          sx={{
-            backgroundColor: "secondary.main",
+      <Drawer
+        sx={{
+          backgroundColor: "red",
+          height: `calc(100vh - ${theme.spacing(4)})`,
+          width: drawerOpen
+            ? {
+                xs: miniDrawerWidth,
+                md: drawerWidth,
+              }
+            : miniDrawerWidth,
+          "& .MuiDrawer-paper": {
+            top: theme.spacing(2),
+            left: theme.spacing(2),
             height: `calc(100vh - ${theme.spacing(4)})`,
-            width: {
-              xs: 0,
-              md: "300px",
-            },
-            "& .MuiDrawer-paper": {
-              top: theme.spacing(2), // Khoảng cách từ top
-              left: theme.spacing(2), // Khoảng cách từ left
-              height: `calc(100vh - ${theme.spacing(4)})`, // Chiều cao cố định
-              width: {
-                xs: 0,
-                md: "300px",
-              },
-              borderRadius: 1, // Tùy chọn: bo góc
-            },
-          }}
-          variant="persistent"
-          open={drawerOpen}
-        >
-          <Sidebar />
-        </Drawer>
-      )}
+            width: drawerOpen
+              ? {
+                  xs: miniDrawerWidth,
+                  md: drawerWidth,
+                }
+              : miniDrawerWidth,
+            borderRadius: 1,
+          },
+        }}
+        variant="persistent"
+        open
+      >
+        <Sidebar drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} />
+      </Drawer>
+
       <Box
         sx={{
           backgroundColor: "primary.main",
@@ -70,8 +74,6 @@ const MainLayout: React.FC = () => {
         </Box>
         <Box sx={{ backgroundColor: "warning.main", flexGrow: 1 }}></Box>
       </Box>
-      {/* <Sidebar /> */}
-      {/* <Outlet /> */}
     </Box>
   );
 };
