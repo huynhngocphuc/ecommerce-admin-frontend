@@ -3,7 +3,7 @@ import { Container, Box, useTheme, useMediaQuery, Drawer, Button } from "@mui/ma
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 const drawerWidth = 300;
-const miniDrawerWidth = 90;
+const miniDrawerWidth = 70;
 const MainLayout: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -25,7 +25,6 @@ const MainLayout: React.FC = () => {
     >
       <Drawer
         sx={{
-          backgroundColor: "red",
           height: `calc(100vh - ${theme.spacing(4)})`,
           width: drawerOpen
             ? {
@@ -45,6 +44,10 @@ const MainLayout: React.FC = () => {
               : miniDrawerWidth,
             borderRadius: 1,
           },
+          transition: theme.transitions.create("width", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
         }}
         variant="persistent"
         open

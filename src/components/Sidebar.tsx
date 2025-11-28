@@ -14,6 +14,8 @@ import {
   Avatar,
   Divider,
   Collapse,
+  ButtonBase,
+  Slide,
 } from "@mui/material";
 import {
   Dashboard,
@@ -35,6 +37,8 @@ import {
   ArrowCircleRightOutlined,
 } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
+import SiderBarMobile from "../components/mobile/SiderBarMobile";
+import SiderBarWeb from "./web/SiderBarWeb";
 
 const drawerWidth = 280;
 const miniDrawerWidth = 80;
@@ -44,12 +48,6 @@ export interface MenuItem {
   icon: React.ReactNode;
   path: string;
   children?: MenuItem[];
-}
-
-interface SiderMenuMobileProps {
-  menuItems: MenuItem[];
-  openSubmenu?: string | null;
-  handleSubmenuToggle: (text: string) => void;
 }
 
 const menuItems: MenuItem[] = [
@@ -110,54 +108,41 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
   };
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+
+      }}
+    >
       <Box
         sx={{ p: 2, position: "sticky", top: 0, backgroundColor: "background.paper", zIndex: 1 }}
       >
-        {drawerOpen ? (
-          <Typography variant="h6">Admin Panel</Typography>
-        ) : (
-          <Typography variant="h6">Admin</Typography>
-        )}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Avatar
+            sx={{
+              width: 40,
+              height: 40,
+              bgcolor: "transparent",
+            }}
+          >
+            <img
+              src="/images/logo_black.png"
+              alt="Logo"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </Avatar>
+          {drawerOpen ? <Typography variant="h6">Admin Panel</Typography> : null}
+        </Box>
       </Box>
       <Divider />
       {drawerOpen ? (
-        <List sx={{ flexGrow: 1 }}>
-          {menuItems.map((item) => (
-            <React.Fragment key={item.text}>
-              <ListItem key={item.text} disablePadding>
-                <ListItemButton
-                  onClick={() => {
-                    if (item.children) {
-                      handleSubmenuToggle?.(item.text);
-                    } else {
-                      console.log(`Navigate to ${item.path}`);
-                    }
-                  }}
-                >
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} />
-                  {item.children && (openSubmenu === item.text ? <ExpandLess /> : <ExpandMore />)}
-                </ListItemButton>
-              </ListItem>
-
-              {item.children && (
-                <Collapse in={openSubmenu === item.text} unmountOnExit>
-                  <List disablePadding>
-                    {item.children.map((child) => (
-                      <ListItem key={child.text} disablePadding sx={{ pl: 2 }}>
-                        <ListItemButton>
-                          <ListItemIcon>{child.icon}</ListItemIcon>
-                          <ListItemText primary={child.text} />
-                        </ListItemButton>
-                      </ListItem>
-                    ))}
-                  </List>
-                </Collapse>
-              )}
-            </React.Fragment>
-          ))}
-        </List>
+        <SiderBarWeb
+          menuItems={menuItems}
+          handleSubmenuToggle={handleSubmenuToggle}
+          openSubmenu={openSubmenu}
+        />
       ) : (
         <SiderBarMobile
           menuItems={menuItems}
@@ -166,58 +151,27 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
         />
       )}
       <Divider />
-      <Box sx={{ p: 2, position: "sticky", bottom: 0 , backgroundColor: "background.paper", zIndex: 1 }}>
-        <Box sx={{ display: "flex", alignItems: "center", }}>
-          <IconButton onClick={handleDrawerToggle} sx={{}}>
-            {drawerOpen ? <ArrowCircleLeftOutlined /> : <ArrowCircleRightOutlined />}
-          </IconButton>
-          {drawerOpen && <Typography variant="body1">Collapse</Typography>}
-        </Box>
+      <Box
+        sx={{ p: 2, position: "sticky", bottom: 0, backgroundColor: "background.paper", zIndex: 1 }}
+      >
+        <ButtonBase
+          sx={{
+            display: "flex",
+            width: "100%",
+            height: '48px',
+            justifyContent: "start",
+            "&:hover": {
+              backgroundColor: "action.hover",
+            },
+          }}
+          onClick={handleDrawerToggle}
+        >
+          {drawerOpen ? <ArrowCircleLeftOutlined fontSize='large' /> : <ArrowCircleRightOutlined fontSize='medium' />}
+
+          {drawerOpen && <Typography variant="body1" sx={{ml:1}}>Collapse</Typography>}
+        </ButtonBase>
       </Box>
     </Box>
-  );
-};
-
-const SiderBarMobile: React.FC<SiderMenuMobileProps> = ({
-  menuItems,
-  handleSubmenuToggle,
-  openSubmenu,
-}) => {
-  return (
-    <List sx={{ flexGrow: 1 }}>
-      {menuItems.map((item) => (
-        <React.Fragment key={item.text}>
-          <ListItem key={item.text} disablePadding sx={{ py: "4px" }}>
-            <ListItemButton
-              onClick={() => {
-                if (item.children) {
-                  handleSubmenuToggle(item.text);
-                } else {
-                  console.log(`Navigate to ${item.path}`);
-                }
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: "20px" }}>{item.icon}</ListItemIcon>
-              {item.children && (openSubmenu === item.text ? <ExpandLess /> : <ExpandMore />)}
-            </ListItemButton>
-          </ListItem>
-
-          {item.children && (
-            <Collapse in={openSubmenu === item.text} unmountOnExit>
-              <List disablePadding>
-                {item.children.map((child) => (
-                  <ListItem key={child.text} disablePadding sx={{ pl: 2, py: "4px" }}>
-                    <ListItemButton>
-                      <ListItemIcon sx={{ minWidth:0 }}>{child.icon}</ListItemIcon>
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
-          )}
-        </React.Fragment>
-      ))}
-    </List>
   );
 };
 
