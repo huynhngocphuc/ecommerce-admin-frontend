@@ -1,16 +1,30 @@
 import React from "react";
-import { Container, Box, useTheme, useMediaQuery, Drawer, Button } from "@mui/material";
+import { Box, useTheme, useMediaQuery, Drawer } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+
 const drawerWidth = 300;
 const miniDrawerWidth = 70;
+
 const MainLayout: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [drawerOpen, setDrawerOpen] = React.useState(true);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    // Default: desktop open, mobile closed
+    setDrawerOpen(!isMobile);
+  }, [isMobile]);
+
   const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
+    setDrawerOpen((prev) => !prev);
   };
+
+  const drawerPaperWidth = isMobile
+    ? drawerWidth
+    : (drawerOpen ? drawerWidth : miniDrawerWidth);
+
   return (
     <Box
       sx={{
@@ -26,56 +40,35 @@ const MainLayout: React.FC = () => {
       <Drawer
         sx={{
           height: `calc(100vh - ${theme.spacing(4)})`,
-          width: drawerOpen
-            ? {
-                xs: miniDrawerWidth,
-                md: drawerWidth,
-              }
-            : miniDrawerWidth,
+          width: isMobile ? undefined : drawerPaperWidth,
           "& .MuiDrawer-paper": {
             top: theme.spacing(2),
             left: theme.spacing(2),
             height: `calc(100vh - ${theme.spacing(4)})`,
-            width: drawerOpen
-              ? {
-                  xs: miniDrawerWidth,
-                  md: drawerWidth,
-                }
-              : miniDrawerWidth,
+            width: drawerPaperWidth,
             borderRadius: 1,
           },
-          transition: theme.transitions.create("width", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
         }}
-        variant="persistent"
-        open
+        variant={isMobile ? "temporary" : "permanent"}
+        open={isMobile ? drawerOpen : true}
+        onClose={isMobile ? handleDrawerToggle : undefined}
+        ModalProps={isMobile ? { keepMounted: true } : undefined}
       >
-        <Sidebar drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} />
+        <Sidebar drawerOpen={!isMobile && drawerOpen} handleDrawerToggle={handleDrawerToggle} />
       </Drawer>
 
       <Box
         sx={{
-          backgroundColor: "primary.main",
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",
-          height: "110vh",
           gap: theme.spacing(2),
         }}
       >
-        <Box sx={{ backgroundColor: "success.main", height: "100px" }}>
-          <Button
-            sx={{ margin: 2 }}
-            variant="contained"
-            color="secondary"
-            onClick={handleDrawerToggle}
-          >
-            Click Me
-          </Button>
+        <Navbar onMenuClick={handleDrawerToggle} />
+        <Box sx={{ flexGrow: 1 }}>
+          <Outlet />
         </Box>
-        <Box sx={{ backgroundColor: "warning.main", flexGrow: 1 }}></Box>
       </Box>
     </Box>
   );

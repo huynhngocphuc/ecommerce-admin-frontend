@@ -16,10 +16,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import NotificationImportantOutlinedIcon from "@mui/icons-material/NotificationImportantOutlined";
 interface NavbarProps {
-  // toggleDarkMode: () => void;
+  onMenuClick?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({}) => {
+const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   return (
     <>
       <AppBar
@@ -33,7 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
         }}
       >
         <Toolbar>
-          <IconButton>
+          <IconButton onClick={onMenuClick}>
             <MenuIcon />
           </IconButton>
           {/* Notification Icon */}

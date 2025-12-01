@@ -1,22 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  IconButton,
-  useTheme,
-  useMediaQuery,
-  Avatar,
-  Divider,
-  Collapse,
-  ButtonBase,
-  Slide,
-} from "@mui/material";
+import { Box, Typography, useTheme, useMediaQuery, Avatar, Divider, ButtonBase } from "@mui/material";
 import {
   Dashboard,
   Inventory,
@@ -24,24 +7,15 @@ import {
   People,
   Assessment,
   Settings,
-  Logout,
-  Menu as MenuIcon,
-  ChevronLeft,
-  ExpandLess,
-  ExpandMore,
   Category,
   LocalOffer,
   Reviews,
-  ChevronRight,
   ArrowCircleLeftOutlined,
   ArrowCircleRightOutlined,
 } from "@mui/icons-material";
-import { useNavigate, useLocation } from "react-router-dom";
 import SiderBarMobile from "../components/mobile/SiderBarMobile";
 import SiderBarWeb from "./web/SiderBarWeb";
 
-const drawerWidth = 280;
-const miniDrawerWidth = 80;
 
 export interface MenuItem {
   text: string;
@@ -103,6 +77,8 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const handleSubmenuToggle = (text: string) => {
     setOpenSubmenu(openSubmenu === text ? null : text);
   };
@@ -137,23 +113,33 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
         </Box>
       </Box>
       <Divider />
-      {drawerOpen ? (
-        <SiderBarWeb
-          menuItems={menuItems}
-          handleSubmenuToggle={handleSubmenuToggle}
-          openSubmenu={openSubmenu}
-        />
-      ) : (
-        <SiderBarMobile
-          menuItems={menuItems}
-          handleSubmenuToggle={handleSubmenuToggle}
-          openSubmenu={openSubmenu}
-        />
-      )}
+      {isMobile
+        ? (
+          <SiderBarWeb
+            menuItems={menuItems}
+            handleSubmenuToggle={handleSubmenuToggle}
+            openSubmenu={openSubmenu}
+          />
+        )
+        : (
+          drawerOpen ? (
+            <SiderBarWeb
+              menuItems={menuItems}
+              handleSubmenuToggle={handleSubmenuToggle}
+              openSubmenu={openSubmenu}
+            />
+          ) : (
+            <SiderBarMobile
+              menuItems={menuItems}
+              handleSubmenuToggle={handleSubmenuToggle}
+              openSubmenu={openSubmenu}
+            />
+          )
+        )}
       <Divider />
       <Box
         sx={{ p: 2, position: "sticky", bottom: 0, backgroundColor: "background.paper", zIndex: 1 }}
-      >
+      > 
         <ButtonBase
           sx={{
             display: "flex",
@@ -166,9 +152,13 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
           }}
           onClick={handleDrawerToggle}
         >
-          {drawerOpen ? <ArrowCircleLeftOutlined fontSize='large' /> : <ArrowCircleRightOutlined fontSize='medium' />}
-
-          {drawerOpen && <Typography variant="body1" sx={{ml:1}}>Collapse</Typography>}
+          {isMobile
+            ? (<ArrowCircleLeftOutlined fontSize='large' />)
+            : (drawerOpen ? <ArrowCircleLeftOutlined fontSize='large' /> : <ArrowCircleRightOutlined fontSize='medium' />)
+          }
+          <Typography variant="body1" sx={{ml:1}}>
+            {isMobile ? "Close" : (drawerOpen ? "Collapse" : "")}
+          </Typography>
         </ButtonBase>
       </Box>
     </Box>
