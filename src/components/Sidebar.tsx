@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Box, Typography, useTheme, useMediaQuery, Avatar, Divider, ButtonBase } from "@mui/material";
+import {
+  Box,
+  Typography,
+  useTheme,
+  useMediaQuery,
+  Avatar,
+  Divider,
+  ButtonBase,
+} from "@mui/material";
 import {
   Dashboard,
   Inventory,
@@ -14,13 +22,14 @@ import {
   ArrowCircleRightOutlined,
 } from "@mui/icons-material";
 import SiderBarMobile from "../components/mobile/SiderBarMobile";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import SiderBarWeb from "./web/SiderBarWeb";
-
-
+import { useNavigate } from "react-router-dom";
+import { PATHS } from ".././constants/pathRouter";
 export interface MenuItem {
   text: string;
   icon: React.ReactNode;
-  path: string;
+  path?: string;
   children?: MenuItem[];
 }
 
@@ -28,46 +37,46 @@ const menuItems: MenuItem[] = [
   {
     text: "Dashboard",
     icon: <Dashboard />,
-    path: "/",
+    path: PATHS.HOME,
   },
   {
     text: "Sản phẩm",
     icon: <Inventory />,
-    path: "/products",
+    path: PATHS.PRODUCTS,
     children: [
-      { text: "Danh sách sản phẩm", icon: <Inventory />, path: "/products" },
-      { text: "Danh mục", icon: <Category />, path: "/categories" },
+      { text: "Danh sách sản phẩm", icon: <FormatListNumberedIcon />, path: PATHS.PRODUCTS },
+      { text: "Danh mục", icon: <Category />, path: PATHS.CATEGORIES },
     ],
   },
   {
     text: "Đơn hàng",
     icon: <ShoppingCart />,
-    path: "/orders",
+    path: PATHS.ORDERS,
   },
   {
     text: "Khách hàng",
     icon: <People />,
-    path: "/customers",
+    path: PATHS.CUSTOMERS,
   },
   {
     text: "Khuyến mãi",
     icon: <LocalOffer />,
-    path: "/promotions",
+    path: PATHS.PROMOTIONS,
   },
   {
     text: "Đánh giá",
     icon: <Reviews />,
-    path: "/reviews",
+    path: PATHS.REVIEWS,
   },
   {
     text: "Báo cáo",
     icon: <Assessment />,
-    path: "/reports",
+    path: PATHS.REPORTS,
   },
   {
     text: "Cài đặt",
     icon: <Settings />,
-    path: "/settings",
+    path: PATHS.SETTINGS,
   },
 ];
 
@@ -78,6 +87,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const handleSubmenuToggle = (text: string) => {
     setOpenSubmenu(openSubmenu === text ? null : text);
@@ -89,13 +99,17 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
         display: "flex",
         flexDirection: "column",
         height: "100%",
-
       }}
     >
       <Box
         sx={{ p: 2, position: "sticky", top: 0, backgroundColor: "background.paper", zIndex: 1 }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Box
+          sx={{ display: "flex", alignItems: "center", gap: 1, cursor: "pointer" }}
+          onClick={() => {
+            navigate(PATHS.HOME);
+          }}
+        >
           <Avatar
             sx={{
               width: 40,
@@ -113,51 +127,51 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
         </Box>
       </Box>
       <Divider />
-      {isMobile
-        ? (
-          <SiderBarWeb
-            menuItems={menuItems}
-            handleSubmenuToggle={handleSubmenuToggle}
-            openSubmenu={openSubmenu}
-          />
-        )
-        : (
-          drawerOpen ? (
-            <SiderBarWeb
-              menuItems={menuItems}
-              handleSubmenuToggle={handleSubmenuToggle}
-              openSubmenu={openSubmenu}
-            />
-          ) : (
-            <SiderBarMobile
-              menuItems={menuItems}
-              handleSubmenuToggle={handleSubmenuToggle}
-              openSubmenu={openSubmenu}
-            />
-          )
-        )}
+      {isMobile ? (
+        <SiderBarWeb
+          menuItems={menuItems}
+          handleSubmenuToggle={handleSubmenuToggle}
+          openSubmenu={openSubmenu}
+        />
+      ) : drawerOpen ? (
+        <SiderBarWeb
+          menuItems={menuItems}
+          handleSubmenuToggle={handleSubmenuToggle}
+          openSubmenu={openSubmenu}
+        />
+      ) : (
+        <SiderBarMobile
+          menuItems={menuItems}
+          handleSubmenuToggle={handleSubmenuToggle}
+          openSubmenu={openSubmenu}
+        />
+      )}
       <Divider />
       <Box
         sx={{ p: 2, position: "sticky", bottom: 0, backgroundColor: "background.paper", zIndex: 1 }}
-      > 
+      >
         <ButtonBase
           sx={{
             display: "flex",
             width: "100%",
-            height: '48px',
+            height: "48px",
             justifyContent: "start",
+            borderRadius: 1,
             "&:hover": {
               backgroundColor: "action.hover",
             },
           }}
           onClick={handleDrawerToggle}
         >
-          {isMobile
-            ? (<ArrowCircleLeftOutlined fontSize='large' />)
-            : (drawerOpen ? <ArrowCircleLeftOutlined fontSize='large' /> : <ArrowCircleRightOutlined fontSize='medium' />)
-          }
-          <Typography variant="body1" sx={{ml:1}}>
-            {isMobile ? "Close" : (drawerOpen ? "Collapse" : "")}
+          {isMobile ? (
+            <ArrowCircleLeftOutlined fontSize="large" />
+          ) : drawerOpen ? (
+            <ArrowCircleLeftOutlined fontSize="large" />
+          ) : (
+            <ArrowCircleRightOutlined fontSize="large" />
+          )}
+          <Typography variant="body1" sx={{ ml: 1 }}>
+            {isMobile ? "Close" : drawerOpen ? "Collapse" : ""}
           </Typography>
         </ButtonBase>
       </Box>

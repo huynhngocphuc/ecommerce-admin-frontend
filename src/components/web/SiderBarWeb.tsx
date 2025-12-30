@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { MenuItem } from "../Sidebar";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 interface SiderMenuWebProps {
   menuItems: MenuItem[];
@@ -20,6 +21,7 @@ const SiderBarWeb: React.FC<SiderMenuWebProps> = ({
   handleSubmenuToggle,
   openSubmenu,
 }) => {
+  const navigate = useNavigate();
   return (
     <List sx={{ flexGrow: 1, overflow: "auto" }}>
       {menuItems.map((item) => (
@@ -30,7 +32,7 @@ const SiderBarWeb: React.FC<SiderMenuWebProps> = ({
                 if (item.children) {
                   handleSubmenuToggle?.(item.text);
                 } else {
-                  console.log(`Navigate to ${item.path}`);
+                  navigate(item.path || "/");
                 }
               }}
             >
@@ -44,7 +46,12 @@ const SiderBarWeb: React.FC<SiderMenuWebProps> = ({
             <Collapse in={openSubmenu === item.text} unmountOnExit>
               <List disablePadding>
                 {item.children.map((child) => (
-                  <ListItem key={child.text} disablePadding sx={{ pl: 2 }}>
+                  <ListItem
+                    key={child.text}
+                    disablePadding
+                    sx={{ pl: 2 }}
+                    onClick={() => navigate(child.path || "/")}
+                  >
                     <ListItemButton>
                       <ListItemIcon>{child.icon}</ListItemIcon>
                       <ListItemText primary={child.text} />

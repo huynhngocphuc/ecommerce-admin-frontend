@@ -33,10 +33,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
         }}
       >
         <Toolbar>
-          <IconButton onClick={onMenuClick}>
+          <IconButton onClick={onMenuClick} sx={{ display: { xs: "flex", md: "none" } }}>
             <MenuIcon />
           </IconButton>
-          {/* Notification Icon */}
           <Stack
             direction="row"
             sx={{ flexGrow: 1, justifyContent: "flex-end", alignItems: "center" }}
@@ -49,10 +48,10 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                 </Badge>
               </IconButton>
             </Box>
-            <Box >
-              <Button sx={{borderRadius:"25px",minWidth:'64px'}}>
+            <Box>
+              <Button sx={{ borderRadius: "25px", minWidth: "64px" }}>
                 <Avatar alt="Sharp" src="images/logo_black.png" />
-                <Box sx={{ marginLeft: "16px"}}>
+                <Box sx={{ marginLeft: "16px" }}>
                   <Typography variant="h6" component="h6" fontSize="1.2rem">
                     Peter
                   </Typography>

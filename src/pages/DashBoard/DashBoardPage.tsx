@@ -116,7 +116,7 @@ const RecentOrders = () => (
   </Card>
 );
 
-// Component cho sản phẩm sắp hết hàng
+
 const LowStockProducts = () => (
   <Card>
     <CardContent>
@@ -158,7 +158,7 @@ const LowStockProducts = () => (
 const DashBoardPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: 3 }}>
-      {/* Header */}
+
       <Box mb={4}>
         <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
           Dashboard
@@ -168,7 +168,6 @@ const DashBoardPage = () => {
         </Typography>
       </Box>
 
-      {/* Thống kê tổng quan */}
       <Grid container spacing={3} mb={4}>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
@@ -208,76 +207,8 @@ const DashBoardPage = () => {
         </Grid>
       </Grid>
 
-      {/* Biểu đồ và bảng */}
-      <Grid container spacing={3}>
-        {/* Biểu đồ doanh thu */}
-        <Grid size={{ xs: 12, md: 8 }}>
-          <Card sx={{ height: 400 }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Biểu đồ doanh thu 7 ngày gần đây
-              </Typography>
-              <Box 
-                sx={{ 
-                  height: 300, 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  bgcolor: 'grey.50',
-                  borderRadius: 1
-                }}
-              >
-                <Typography color="textSecondary">
-                  [Biểu đồ sẽ được tích hợp ở đây]
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
 
-        {/* Thông báo */}
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card sx={{ height: 400 }}>
-            <CardContent>
-              <Box display="flex" alignItems="center" mb={2}>
-                <Notifications sx={{ mr: 1 }} />
-                <Typography variant="h6">
-                  Thông báo
-                </Typography>
-              </Box>
-              <Box>
-                {[
-                  'Có 5 đơn hàng cần xử lý',
-                  '3 sản phẩm sắp hết hàng',
-                  'Khuyến mãi Black Friday sắp hết hạn',
-                  '12 đánh giá mới cần phản hồi',
-                ].map((notification, index) => (
-                  <Box 
-                    key={index}
-                    py={1.5}
-                    borderBottom={index < 3 ? 1 : 0}
-                    borderColor="divider"
-                  >
-                    <Typography variant="body2">
-                      • {notification}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
 
-        {/* Đơn hàng gần đây */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <RecentOrders />
-        </Grid>
-
-        {/* Sản phẩm sắp hết hàng */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <LowStockProducts />
-        </Grid>
-      </Grid>
     </Container>
   );
 };

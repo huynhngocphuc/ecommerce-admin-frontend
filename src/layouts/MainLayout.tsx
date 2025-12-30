@@ -1,6 +1,6 @@
-import React from "react";
-import { Box, useTheme, useMediaQuery, Drawer } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Box, useTheme, useMediaQuery, Drawer, Container } from "@mui/material";
+import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 
@@ -9,21 +9,21 @@ const miniDrawerWidth = 70;
 
 const MainLayout: React.FC = () => {
   const theme = useTheme();
+  const location = useLocation();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = React.useState(true);
 
-  React.useEffect(() => {
-    // Default: desktop open, mobile closed
-    setDrawerOpen(!isMobile);
-  }, [isMobile]);
+  useEffect(() => {
+    if (isMobile) {
+      setDrawerOpen(false);
+    }
+  }, [location.pathname, isMobile]);
 
   const handleDrawerToggle = () => {
     setDrawerOpen((prev) => !prev);
   };
 
-  const drawerPaperWidth = isMobile
-    ? drawerWidth
-    : (drawerOpen ? drawerWidth : miniDrawerWidth);
+  const drawerPaperWidth = isMobile ? drawerWidth : drawerOpen ? drawerWidth : miniDrawerWidth;
 
   return (
     <Box
@@ -46,7 +46,7 @@ const MainLayout: React.FC = () => {
             left: theme.spacing(2),
             height: `calc(100vh - ${theme.spacing(4)})`,
             width: drawerPaperWidth,
-            borderRadius: 1,
+            borderRadius: 2,
           },
         }}
         variant={isMobile ? "temporary" : "permanent"}
@@ -65,10 +65,12 @@ const MainLayout: React.FC = () => {
           gap: theme.spacing(2),
         }}
       >
-        <Navbar onMenuClick={handleDrawerToggle} />
-        <Box sx={{ flexGrow: 1 }}>
-          <Outlet />
-        </Box>
+        <Container maxWidth="lg">
+          <Navbar onMenuClick={handleDrawerToggle} />
+          <Box sx={{ flexGrow: 1 }}>
+            <Outlet />
+          </Box>
+        </Container>
       </Box>
     </Box>
   );
