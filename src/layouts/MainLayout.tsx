@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 
 const drawerWidth = 300;
-const miniDrawerWidth = 70;
+const miniDrawerWidth = 80;
 
 const MainLayout: React.FC = () => {
   const theme = useTheme();

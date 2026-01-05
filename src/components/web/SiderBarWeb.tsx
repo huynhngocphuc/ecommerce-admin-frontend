@@ -23,7 +23,26 @@ const SiderBarWeb: React.FC<SiderMenuWebProps> = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <List sx={{ flexGrow: 1, overflow: "auto" }}>
+    <List
+      sx={{
+        flexGrow: 1,
+        overflow: "auto",
+        "&::-webkit-scrollbar": {
+          width: "8px",
+        },
+        "&::-webkit-scrollbar-track": {
+          background: "transparent",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "#888",
+          borderRadius: "4px",
+          "&:hover": {
+            background: "#666",
+            cursor: "pointer",
+          },
+        },
+      }}
+    >
       {menuItems.map((item) => (
         <React.Fragment key={item.text}>
           <ListItem key={item.text} disablePadding>

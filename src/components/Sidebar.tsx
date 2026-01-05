@@ -123,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
               style={{ width: "100%", height: "100%" }}
             />
           </Avatar>
-          {drawerOpen ? <Typography variant="h6">Admin Panel</Typography> : null}
+          {drawerOpen ? <Typography variant="h6">Admin GirlHaf</Typography> : null}
         </Box>
       </Box>
       <Divider />

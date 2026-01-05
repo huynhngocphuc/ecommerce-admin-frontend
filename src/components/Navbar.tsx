@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Box,
   Avatar,
   Badge,
-  Menu,
-  MenuItem,
-  Stack,
+  Box,
   Button,
+  Divider,
+  IconButton,
+  Stack,
+  Toolbar,
+  Typography,
+  useTheme
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import React, { useEffect, useRef, useState } from "react";
 
 import NotificationImportantOutlinedIcon from "@mui/icons-material/NotificationImportantOutlined";
 interface NavbarProps {
@@ -20,14 +20,44 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
+  const theme = useTheme();
+
+  const [showProfile, setShowProfile] = useState(false);
+
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  const handleProfileToggle = () => {
+    setShowProfile((prev) => !prev);
+  };
+
+  const handleCloseProfile = () => {
+    setShowProfile(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setShowProfile(false);
+      }
+    };
+
+    if (showProfile) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showProfile]);
+
   return (
     <>
       <AppBar
         position="sticky"
         sx={{
-          backgroundColor: "background.default",
+          backgroundColor: "background.paper",
           borderRadius: "10px",
-          color: "text.primary",
+          color: theme.palette.text.primary,
           minHeight: "70px",
           justifyContent: "center",
         }}
@@ -48,18 +78,53 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                 </Badge>
               </IconButton>
             </Box>
-            <Box>
-              <Button sx={{ borderRadius: "25px", minWidth: "64px" }}>
+            {/* Thêm ref vào Box container */}
+            <Box sx={{ position: "relative" }} ref={profileRef}>
+              <Button sx={{ borderRadius: "20px", minWidth: "64px" }} onClick={handleProfileToggle}>
                 <Avatar alt="Sharp" src="images/logo_black.png" />
                 <Box sx={{ marginLeft: "16px" }}>
-                  <Typography variant="h6" component="h6" fontSize="1.2rem">
+                  <Typography variant="body1" fontSize="1.2rem" sx={{ textTransform: "none" }}>
                     Peter
                   </Typography>
-                  <Typography variant="h6" component="h6" sx={{ fontSize: "14px" }}>
+                  <Typography variant="body2" sx={{ fontSize: "14px", textTransform: "none" }}>
                     admin
                   </Typography>
                 </Box>
               </Button>
+
+              {showProfile && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    backgroundColor: "background.paper",
+                    top: "60px",
+                    right: 0,
+                    minWidth: "200px",
+                    boxShadow: 3,
+                    borderRadius: 2,
+                    p: 2,
+                    zIndex: 1000,
+                  }}
+                >
+                  <Typography sx={{ textTransform: "none" }}>User Profile</Typography>
+                  <Divider sx={{ my: 1 }} />
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Avatar alt="Sharp" src="images/logo_black.png" />
+                    <Box>
+                      <Typography variant="body1" fontSize="1rem" sx={{ textTransform: "none" }}>
+                        Peter
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontSize: "12px", textTransform: "none" }}>
+                        admin
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Divider sx={{ my: 1 }} />
+                  <Button fullWidth onClick={handleCloseProfile} sx={{ textTransform: "none" }}>
+                    Logout
+                  </Button>
+                </Box>
+              )}
             </Box>
           </Stack>
         </Toolbar>
