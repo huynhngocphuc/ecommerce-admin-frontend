@@ -4,7 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 
-const drawerWidth = 300;
+const drawerWidth = 280;
 const miniDrawerWidth = 80;
 
 const MainLayout: React.FC = () => {

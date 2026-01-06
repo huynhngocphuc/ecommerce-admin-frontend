@@ -15,13 +15,15 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 
 import NotificationImportantOutlinedIcon from "@mui/icons-material/NotificationImportantOutlined";
+import { useAppDispatch } from "../redux/store";
+import { logout } from "../redux/slices/auth.slice";
 interface NavbarProps {
   onMenuClick?: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   const theme = useTheme();
-
+  const dispatch = useAppDispatch();
   const [showProfile, setShowProfile] = useState(false);
 
   const profileRef = useRef<HTMLDivElement>(null);
@@ -33,6 +35,10 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   const handleCloseProfile = () => {
     setShowProfile(false);
   };
+  const handleLogout = () => {
+    dispatch(logout());
+    console.log("Đăng xuất");
+  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -120,7 +126,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                     </Box>
                   </Box>
                   <Divider sx={{ my: 1 }} />
-                  <Button fullWidth onClick={handleCloseProfile} sx={{ textTransform: "none" }}>
+                  <Button fullWidth onClick={handleLogout} sx={{ textTransform: "none" }}>
                     Logout
                   </Button>
                 </Box>

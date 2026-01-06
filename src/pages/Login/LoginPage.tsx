@@ -16,7 +16,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 // import { useAuth } from '../auth/AuthContext';
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/store";
-import { login, login as loginAction } from "../../redux/slices/auth.slice";
+import { login } from "../../redux/slices/auth.slice";
 import { AUTH_TEXTS } from "../../constants";
 
 const LoginPage: React.FC = () => {
