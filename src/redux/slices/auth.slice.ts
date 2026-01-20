@@ -31,7 +31,7 @@ export const login = createAsyncThunk(
         return rejectWithValue(resp);
       }
       dispatch(hideLoading())
-      dispatch(addAlert({ message: resp.message || 'Login successful', severity: 'success' }));
+      dispatch(addAlert({ message: resp.message || 'Login successful', severity: 'success', autoHidden: true  }));
       return resp;
     } catch (err: any) {
       dispatch(hideLoading())

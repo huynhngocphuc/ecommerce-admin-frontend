@@ -27,8 +27,9 @@ const SiderBarWeb: React.FC<SiderMenuWebProps> = ({
       sx={{
         flexGrow: 1,
         overflow: "auto",
+         scrollbarGutter: "stable",
         "&::-webkit-scrollbar": {
-          width: "8px",
+          width: "4px",
         },
         "&::-webkit-scrollbar-track": {
           background: "transparent",

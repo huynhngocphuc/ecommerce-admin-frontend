@@ -4,12 +4,14 @@ type Alert = {
     id: string;
     message: string;
     severity: 'error' | 'warning' | 'info' | 'success';
+    autoHidden?: boolean;
 }
 
 type AddAlertPayload = {
     id?: string;
     message: string | string[];
     severity: 'error' | 'warning' | 'info' | 'success';
+    autoHidden?: boolean;
 }
 const initialState = {
     listAlert: [] as Alert[]
@@ -20,13 +22,14 @@ const stackAlertSlice = createSlice({
     initialState,
     reducers: {
         addAlert: (state, action: PayloadAction<AddAlertPayload>) => {
-            const { message, severity } = action.payload;
+            const { message, severity, autoHidden } = action.payload;
             console.log("🚀 ~ message:", message)
         if (Array.isArray(message)) {
             const alerts = message.map(msg => ({
                 id: action.payload.id || crypto.randomUUID(),
                 message: msg,
-                severity
+                severity,
+                autoHidden
             }));
             state.listAlert.push(...alerts);
         }
@@ -35,6 +38,7 @@ const stackAlertSlice = createSlice({
                 id: action.payload.id || crypto.randomUUID(),
                 message,
                 severity,
+                autoHidden
             });
         }
         },
