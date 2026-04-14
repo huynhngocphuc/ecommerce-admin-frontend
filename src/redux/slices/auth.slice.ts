@@ -1,5 +1,5 @@
 
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Role } from '../../features/auth/type';
 import { showLoading, hideLoading, } from './loading.slice';
 import { addAlert, clearAlerts } from './stackAlert.slice';
@@ -10,12 +10,42 @@ type AuthState = {
   isAuthenticated: boolean;
   userRoles: Role[];
   isInitialized: boolean;
+  userId: string | null;
 };
 
 const initialState: AuthState = {
   isAuthenticated: false,
   userRoles: [],
   isInitialized: false,
+  userId: null,
+};
+
+type AuthUserPayload = {
+  id?: string;
+  email?: string;
+  role?: Role | Role[];
+  roles?: Role[];
+};
+
+const allowedRoles: Role[] = ['user', 'admin', 'superadmin'];
+
+const normalizeRoles = (user?: AuthUserPayload): Role[] => {
+  if (!user) {
+    return [];
+  }
+
+  const fromRoles = Array.isArray(user.roles) ? user.roles : [];
+  const fromRole = Array.isArray(user.role) ? user.role : user.role ? [user.role] : [];
+
+  return Array.from(
+    new Set(
+      [...fromRoles, ...fromRole].filter((role): role is Role => allowedRoles.includes(role))
+    )
+  );
+};
+
+const extractAuthUser = (payload: any): AuthUserPayload | undefined => {
+  return payload?.data?.user ?? payload?.data?.data?.user ?? payload?.user;
 };
 
 export const login = createAsyncThunk(
@@ -90,27 +120,38 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
       state.isAuthenticated = true;
+      state.isInitialized = true;
+      state.userId = extractAuthUser(action.payload)?.id || null;
+      state.userRoles = normalizeRoles(extractAuthUser(action.payload));
     });
     builder.addCase(login.rejected, (state, action) => {
       state.isAuthenticated = false;
       state.userRoles = [];
+      state.userId = null;
+      state.isInitialized = true;
     });
     builder.addCase(verifyAuth.fulfilled, (state, action) => {
       state.isAuthenticated = true;
       state.isInitialized = true;
+      state.userId = extractAuthUser(action.payload)?.id || null;
+      state.userRoles = normalizeRoles(extractAuthUser(action.payload));
     });
     builder.addCase(verifyAuth.rejected, (state, action) => {
       state.isAuthenticated = false;
       state.isInitialized = true;
+      state.userRoles = [];
+      state.userId = null;
     });
     builder.addCase(logout.fulfilled, (state) => {
       state.isAuthenticated = false;
       state.userRoles = [];
       state.isInitialized = true;
+      state.userId = null;
     });
     builder.addCase(logout.rejected, (state) => {
       state.isAuthenticated = false;
       state.userRoles = [];
+      state.userId = null;
     });
   }
 });

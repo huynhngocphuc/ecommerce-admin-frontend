@@ -7,6 +7,8 @@ import LoginPage from "../pages/Login/LoginPage";
 import PublicRoute from "./PublicRoute";
 import MainLayout from "../layouts/MainLayout";
 import { PATHS } from "../constants/pathRouter";
+import AdminRoute from "./AdminRoute";
+import ProductsPage from "../pages/Products/ProductsPage";
 
 const routes = [
   {
@@ -27,7 +29,11 @@ const routes = [
       },
       {
         path: PATHS.PRODUCTS,
-        element: <h1>Danh sách sản phẩm</h1>,
+        element: (
+          <AdminRoute>
+            <ProductsPage />
+          </AdminRoute>
+        ),
       },
       {
         path: PATHS.CATEGORIES,

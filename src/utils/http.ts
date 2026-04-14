@@ -24,6 +24,7 @@ export const http = {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify(data),
     });
     return response.json();
@@ -31,6 +32,7 @@ export const http = {
   delete: async (url: string): Promise<ApiResponse> => {
     const response = await fetch(`${BASE_URL}${url}`, {
       method: 'DELETE',
+      credentials: 'include',
     });
     return response.json();
   },

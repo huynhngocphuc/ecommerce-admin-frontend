@@ -3,14 +3,14 @@ import { useDispatch } from 'react-redux';
 import authReducer from './slices/auth.slice';
 import loadingReducer from './slices/loading.slice';
 import stackAlertReducer from './slices/stackAlert.slice';
+import productsReducer from './slices/products.slice';
 
 const store = configureStore({
 	reducer: {
 		auth: authReducer,
 		loading: loadingReducer,
 		stackAlert: stackAlertReducer,
-		// user: userReducer,
-		// products: productReducer,
+		products: productsReducer,
 	},
 });
 
