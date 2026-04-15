@@ -36,46 +36,50 @@ export interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     text: "Dashboard",
-    icon: <Dashboard />,
+    icon: <Dashboard color="primary" />,
     path: PATHS.HOME,
   },
   {
     text: "Sản phẩm",
-    icon: <Inventory />,
+    icon: <Inventory color="primary" />,
     path: PATHS.PRODUCTS,
     children: [
-      { text: "Danh sách sản phẩm", icon: <FormatListNumberedIcon />, path: PATHS.PRODUCTS },
-      { text: "Danh mục", icon: <Category />, path: PATHS.CATEGORIES },
+      {
+        text: "Danh sách sản phẩm",
+        icon: <FormatListNumberedIcon color="primary" />,
+        path: PATHS.PRODUCTS,
+      },
+      { text: "Danh mục", icon: <Category color="primary" />, path: PATHS.CATEGORIES },
     ],
   },
   {
     text: "Đơn hàng",
-    icon: <ShoppingCart />,
+    icon: <ShoppingCart color="primary" />,
     path: PATHS.ORDERS,
   },
   {
     text: "Khách hàng",
-    icon: <People />,
+    icon: <People color="primary" />,
     path: PATHS.CUSTOMERS,
   },
   {
     text: "Khuyến mãi",
-    icon: <LocalOffer />,
+    icon: <LocalOffer color="primary" />,
     path: PATHS.PROMOTIONS,
   },
   {
     text: "Đánh giá",
-    icon: <Reviews />,
+    icon: <Reviews color="primary" />,
     path: PATHS.REVIEWS,
   },
   {
     text: "Báo cáo",
-    icon: <Assessment />,
+    icon: <Assessment color="primary" />,
     path: PATHS.REPORTS,
   },
   {
     text: "Cài đặt",
-    icon: <Settings />,
+    icon: <Settings color="primary" />,
     path: PATHS.SETTINGS,
   },
 ];
@@ -164,11 +168,11 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
           onClick={handleDrawerToggle}
         >
           {isMobile ? (
-            <ArrowCircleLeftOutlined fontSize="large" />
+            <ArrowCircleLeftOutlined fontSize="large" color="primary" />
           ) : drawerOpen ? (
-            <ArrowCircleLeftOutlined fontSize="large" />
+            <ArrowCircleLeftOutlined fontSize="large" color="primary" />
           ) : (
-            <ArrowCircleRightOutlined fontSize="large" />
+            <ArrowCircleRightOutlined fontSize="large" color="primary" />
           )}
           <Typography variant="body1" sx={{ ml: 1 }}>
             {isMobile ? "Close" : drawerOpen ? "Collapse" : ""}

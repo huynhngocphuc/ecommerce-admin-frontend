@@ -39,11 +39,7 @@ const lightTheme = createTheme({
     borderRadius: 8,
   },
   components:{
-    MuiSvgIcon: {
-       defaultProps: {
-        color: 'primary',
-      },
-    }
+    
   }
 });
 

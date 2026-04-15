@@ -60,14 +60,15 @@ const MainLayout: React.FC = () => {
       <Box
         sx={{
           flexGrow: 1,
+          minWidth: 0,
           display: "flex",
           flexDirection: "column",
           gap: theme.spacing(2),
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" sx={{ width: "100%", minWidth: 0 }}>
           <Navbar onMenuClick={handleDrawerToggle} />
-          <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, minWidth: 0 }}>
             <Outlet />
           </Box>
         </Container>

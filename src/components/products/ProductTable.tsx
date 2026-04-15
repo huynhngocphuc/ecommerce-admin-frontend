@@ -83,13 +83,13 @@ const ProductTable: React.FC<ProductTableProps> = ({
     {
       field: 'stock',
       headerName: 'Stock',
-      width: 110,
+      width: 100,
       valueGetter: (_, row) => row.stock,
     },
     {
       field: 'status',
       headerName: 'Status',
-      width: 130,
+      width: 100,
       sortable: false,
       renderCell: (params) => (
         <Chip

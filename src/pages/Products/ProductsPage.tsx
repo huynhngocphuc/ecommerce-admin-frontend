@@ -55,7 +55,7 @@ const ProductsPage: React.FC = () => {
               Manage the catalog from one place. The list loads from the server and defaults to active products.
             </Typography>
           </Box>
-          <Button variant="contained" startIcon={<AddOutlinedIcon />} onClick={handleCreate}>
+          <Button variant="contained" startIcon={<AddOutlinedIcon /> } size="small" color="primary" onClick={handleCreate}>
             Create Product
           </Button>
         </Stack>

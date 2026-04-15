@@ -30,7 +30,7 @@ export default function StackAlert() {
   };
 
   useEffect(() => {
-    const timers: NodeJS.Timeout[] = [];
+    const timers: ReturnType<typeof setTimeout>[] = [];
     
     alerts.forEach((alert) => {
       if (alert.autoHidden && !removingIds.has(alert.id)) {
