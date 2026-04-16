@@ -51,7 +51,7 @@ const ProductsPage: React.FC = () => {
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={2}>
           <Box>
-            <Typography variant="h4" component="h1" fontWeight={800} gutterBottom>
+            <Typography variant="h4" component="h1" fontWeight="700" gutterBottom>
               {tr('products.title')}
             </Typography>
             <Typography variant="body1" color="text.secondary">
