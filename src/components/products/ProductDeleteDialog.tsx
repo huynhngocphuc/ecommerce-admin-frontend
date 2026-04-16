@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../redux/store';
@@ -9,6 +10,8 @@ interface ProductDeleteDialogProps {
 }
 
 const ProductDeleteDialog: React.FC<ProductDeleteDialogProps> = ({ open }) => {
+  const { t } = useTranslation('admin');
+  const tr = t as unknown as (key: string, options?: Record<string, unknown>) => string;
   const dispatch = useAppDispatch();
   const target = useSelector((state: RootState) => state.products.deleteTarget);
   const loading = useSelector((state: RootState) => state.products.loading);
@@ -33,21 +36,21 @@ const ProductDeleteDialog: React.FC<ProductDeleteDialogProps> = ({ open }) => {
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-      <DialogTitle>Confirm delete</DialogTitle>
+      <DialogTitle>{tr('dialog.confirm_delete')}</DialogTitle>
       <DialogContent>
         <Typography variant="body1">
-          {target ? `Mark “${target.name}” as inactive?` : 'Mark this product as inactive?'}
+          {target ? tr('dialog.soft_delete_question', { name: target.name }) : tr('dialog.soft_delete_question_generic')}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          This is a soft delete. The product will remain in the database and can be reactivated later.
+          {tr('dialog.soft_delete_note')}
         </Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} disabled={loading}>
-          Cancel
+          {tr('dialog.cancel')}
         </Button>
         <Button color="error" variant="contained" onClick={handleConfirm} disabled={loading}>
-          Delete
+          {tr('dialog.delete')}
         </Button>
       </DialogActions>
     </Dialog>

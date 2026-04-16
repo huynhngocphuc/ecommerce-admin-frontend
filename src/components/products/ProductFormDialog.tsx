@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, RootState } from '../../redux/store';
@@ -55,6 +56,8 @@ const normalizeValues = (product: Product | null): ProductFormValues => {
 };
 
 const ProductFormDialog: React.FC<ProductFormDialogProps> = ({ open, mode, product }) => {
+  const { t } = useTranslation('admin');
+  const tr = t as unknown as (key: string) => string;
   const dispatch = useAppDispatch();
   const loading = useSelector((state: RootState) => state.products.loading);
   const [values, setValues] = useState<ProductFormValues>(emptyValues());
@@ -67,7 +70,7 @@ const ProductFormDialog: React.FC<ProductFormDialogProps> = ({ open, mode, produ
     }
   }, [open, product]);
 
-  const title = useMemo(() => (mode === 'create' ? 'Create Product' : 'Edit Product'), [mode]);
+  const title = useMemo(() => (mode === 'create' ? tr('dialog.create_title') : tr('dialog.edit_title')), [mode, tr]);
 
   const handleChange = <K extends keyof ProductFormValues>(field: K, value: ProductFormValues[K]) => {
     setValues((prev) => ({ ...prev, [field]: value }));
@@ -77,11 +80,11 @@ const ProductFormDialog: React.FC<ProductFormDialogProps> = ({ open, mode, produ
   const validate = () => {
     const nextErrors: Partial<Record<keyof ProductFormValues, string>> = {};
 
-    if (!values.name.trim()) nextErrors.name = 'Name is required';
-    if (!values.description.trim()) nextErrors.description = 'Description is required';
-    if (!values.category) nextErrors.category = 'Category is required';
-    if (!Number.isFinite(values.price) || values.price < 0) nextErrors.price = 'Price must be at least 0';
-    if (!Number.isFinite(values.stock) || values.stock < 0) nextErrors.stock = 'Stock must be at least 0';
+    if (!values.name.trim()) nextErrors.name = tr('validation.name_required');
+    if (!values.description.trim()) nextErrors.description = tr('validation.description_required');
+    if (!values.category) nextErrors.category = tr('validation.category_required');
+    if (!Number.isFinite(values.price) || values.price < 0) nextErrors.price = tr('validation.price_min');
+    if (!Number.isFinite(values.stock) || values.stock < 0) nextErrors.stock = tr('validation.stock_min');
 
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
@@ -138,7 +141,7 @@ const ProductFormDialog: React.FC<ProductFormDialogProps> = ({ open, mode, produ
             {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Use this modal to create or update product details.
+            {tr('dialog.subtitle')}
           </Typography>
         </Stack>
       </DialogTitle>
@@ -147,10 +150,10 @@ const ProductFormDialog: React.FC<ProductFormDialogProps> = ({ open, mode, produ
       </DialogContent>
       <DialogActions sx={{ px: 3, py: 2 }}>
         <Button onClick={handleClose} disabled={loading}>
-          Cancel
+          {tr('dialog.cancel')}
         </Button>
         <Button variant="contained" onClick={handleSubmit} disabled={loading}>
-          Save
+          {tr('dialog.save')}
         </Button>
       </DialogActions>
     </Dialog>

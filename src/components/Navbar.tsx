@@ -12,9 +12,11 @@ import {
   Typography,
   useTheme
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import React, { useEffect, useRef, useState } from "react";
 
 import NotificationImportantOutlinedIcon from "@mui/icons-material/NotificationImportantOutlined";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { useAppDispatch } from "../redux/store";
 import { logout } from "../redux/slices/auth.slice";
 interface NavbarProps {
@@ -23,6 +25,8 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   const theme = useTheme();
+  const { t } = useTranslation("common");
+  const tr = t as unknown as (key: string) => string;
   const dispatch = useAppDispatch();
   const [showProfile, setShowProfile] = useState(false);
 
@@ -30,10 +34,6 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
 
   const handleProfileToggle = () => {
     setShowProfile((prev) => !prev);
-  };
-
-  const handleCloseProfile = () => {
-    setShowProfile(false);
   };
   const handleLogout = () => {
     dispatch(logout());
@@ -84,6 +84,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                 </Badge>
               </IconButton>
             </Box>
+              <Box sx={{ px: 1 }}>
+                <LanguageSwitcher />
+              </Box>
             {/* Thêm ref vào Box container */}
             <Box sx={{ position: "relative" }} ref={profileRef}>
               <Button sx={{ borderRadius: "20px", minWidth: "64px" }} onClick={handleProfileToggle}>
@@ -97,6 +100,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                   </Typography>
                 </Box>
               </Button>
+            
 
               {showProfile && (
                 <Box
@@ -112,7 +116,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                     zIndex: 1000,
                   }}
                 >
-                  <Typography sx={{ textTransform: "none" }}>User Profile</Typography>
+                  <Typography sx={{ textTransform: "none" }}>{tr("user_profile")}</Typography>
                   <Divider sx={{ my: 1 }} />
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Avatar alt="Sharp" src="images/logo_black.png" />
@@ -121,13 +125,13 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                         Peter
                       </Typography>
                       <Typography variant="body2" sx={{ fontSize: "12px", textTransform: "none" }}>
-                        admin
+                        {tr("admin_role")}
                       </Typography>
                     </Box>
                   </Box>
                   <Divider sx={{ my: 1 }} />
                   <Button fullWidth onClick={handleLogout} sx={{ textTransform: "none" }}>
-                    Logout
+                    {tr("logout")}
                   </Button>
                 </Box>
               )}

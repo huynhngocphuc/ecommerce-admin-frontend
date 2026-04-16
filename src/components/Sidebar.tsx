@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Typography,
@@ -33,57 +34,6 @@ export interface MenuItem {
   children?: MenuItem[];
 }
 
-const menuItems: MenuItem[] = [
-  {
-    text: "Dashboard",
-    icon: <Dashboard color="primary" />,
-    path: PATHS.HOME,
-  },
-  {
-    text: "Sản phẩm",
-    icon: <Inventory color="primary" />,
-    path: PATHS.PRODUCTS,
-    children: [
-      {
-        text: "Danh sách sản phẩm",
-        icon: <FormatListNumberedIcon color="primary" />,
-        path: PATHS.PRODUCTS,
-      },
-      { text: "Danh mục", icon: <Category color="primary" />, path: PATHS.CATEGORIES },
-    ],
-  },
-  {
-    text: "Đơn hàng",
-    icon: <ShoppingCart color="primary" />,
-    path: PATHS.ORDERS,
-  },
-  {
-    text: "Khách hàng",
-    icon: <People color="primary" />,
-    path: PATHS.CUSTOMERS,
-  },
-  {
-    text: "Khuyến mãi",
-    icon: <LocalOffer color="primary" />,
-    path: PATHS.PROMOTIONS,
-  },
-  {
-    text: "Đánh giá",
-    icon: <Reviews color="primary" />,
-    path: PATHS.REVIEWS,
-  },
-  {
-    text: "Báo cáo",
-    icon: <Assessment color="primary" />,
-    path: PATHS.REPORTS,
-  },
-  {
-    text: "Cài đặt",
-    icon: <Settings color="primary" />,
-    path: PATHS.SETTINGS,
-  },
-];
-
 interface SidebarProps {
   drawerOpen: boolean;
   handleDrawerToggle?: () => void;
@@ -92,7 +42,59 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { t } = useTranslation("admin");
+  const tr = t as unknown as (key: string) => string;
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const menuItems: MenuItem[] = [
+    {
+      text: tr("menu.dashboard"),
+      icon: <Dashboard color="primary" />,
+      path: PATHS.HOME,
+    },
+    {
+      text: tr("menu.products"),
+      icon: <Inventory color="primary" />,
+      path: PATHS.PRODUCTS,
+      children: [
+        {
+          text: tr("menu.product_list"),
+          icon: <FormatListNumberedIcon color="primary" />,
+          path: PATHS.PRODUCTS,
+        },
+        { text: tr("menu.categories"), icon: <Category color="primary" />, path: PATHS.CATEGORIES },
+      ],
+    },
+    {
+      text: tr("menu.orders"),
+      icon: <ShoppingCart color="primary" />,
+      path: PATHS.ORDERS,
+    },
+    {
+      text: tr("menu.customers"),
+      icon: <People color="primary" />,
+      path: PATHS.CUSTOMERS,
+    },
+    {
+      text: tr("menu.promotions"),
+      icon: <LocalOffer color="primary" />,
+      path: PATHS.PROMOTIONS,
+    },
+    {
+      text: tr("menu.reviews"),
+      icon: <Reviews color="primary" />,
+      path: PATHS.REVIEWS,
+    },
+    {
+      text: tr("menu.reports"),
+      icon: <Assessment color="primary" />,
+      path: PATHS.REPORTS,
+    },
+    {
+      text: tr("menu.settings"),
+      icon: <Settings color="primary" />,
+      path: PATHS.SETTINGS,
+    },
+  ];
   const handleSubmenuToggle = (text: string) => {
     setOpenSubmenu(openSubmenu === text ? null : text);
   };
@@ -127,7 +129,7 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
               style={{ width: "100%", height: "100%" }}
             />
           </Avatar>
-          {drawerOpen ? <Typography variant="h6">Admin GirlHaf</Typography> : null}
+          {drawerOpen ? <Typography variant="h6">{tr("sidebar_title")}</Typography> : null}
         </Box>
       </Box>
       <Divider />
@@ -175,7 +177,7 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
             <ArrowCircleRightOutlined fontSize="large" color="primary" />
           )}
           <Typography variant="body1" sx={{ ml: 1 }}>
-            {isMobile ? "Close" : drawerOpen ? "Collapse" : ""}
+            {isMobile ? tr("drawer.close") : drawerOpen ? tr("drawer.collapse") : ""}
           </Typography>
         </ButtonBase>
       </Box>

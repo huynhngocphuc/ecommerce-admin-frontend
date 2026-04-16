@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../redux/store';
 import { fetchProducts, setDeleteDialogOpen, setDeleteTarget, setDialogOpen, setFilters, setSelectedProduct } from '../../redux/slices/products.slice';
@@ -11,6 +12,8 @@ import ProductFilterBar from '../../components/products/ProductFilterBar';
 import ProductDeleteDialog from '../../components/products/ProductDeleteDialog';
 
 const ProductsPage: React.FC = () => {
+  const { t } = useTranslation('admin');
+  const tr = t as unknown as (key: string) => string;
   const dispatch = useAppDispatch();
   const { items, pagination, filters, loading, isDialogOpen, isDeleteDialogOpen, formMode, selectedProduct } = useSelector((state: RootState) => state.products);
 
@@ -49,14 +52,14 @@ const ProductsPage: React.FC = () => {
         <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={2}>
           <Box>
             <Typography variant="h4" component="h1" fontWeight={800} gutterBottom>
-              Product Management
+              {tr('products.title')}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Manage the catalog from one place. The list loads from the server and defaults to active products.
+              {tr('products.subtitle')}
             </Typography>
           </Box>
           <Button variant="contained" startIcon={<AddOutlinedIcon /> } size="small" color="primary" onClick={handleCreate}>
-            Create Product
+            {tr('products.create')}
           </Button>
         </Stack>
 

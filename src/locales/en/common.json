@@ -1,0 +1,8 @@
+{
+  "welcome": "Welcome",
+  "logout": "Logout",
+  "dashboard": "Dashboard",
+  "products": "Products",
+  "user_profile": "User Profile",
+  "admin_role": "Admin"
+}

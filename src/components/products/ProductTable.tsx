@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Avatar,
   Box,
@@ -35,10 +36,12 @@ const ProductTable: React.FC<ProductTableProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const { t } = useTranslation('admin');
+  const tr = t as unknown as (key: string) => string;
   const columns: GridColDef<Product>[] = [
     {
       field: 'imageUrl',
-      headerName: 'Image',
+      headerName: tr('table.image'),
       width: 96,
       sortable: false,
       renderCell: (params) => (
@@ -54,7 +57,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
     },
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: tr('table.name'),
       flex: 1.2,
       minWidth: 220,
       renderCell: (params) => (
@@ -70,31 +73,31 @@ const ProductTable: React.FC<ProductTableProps> = ({
     },
     {
       field: 'price',
-      headerName: 'Price',
+      headerName: tr('table.price'),
       width: 140,
       renderCell: (params) => formatCurrency(Number(params.row.price || 0)),
     },
     {
       field: 'category',
-      headerName: 'Category',
+      headerName: tr('table.category'),
       width: 150,
       valueGetter: (_, row) => row.category,
     },
     {
       field: 'stock',
-      headerName: 'Stock',
+      headerName: tr('table.stock'),
       width: 100,
       valueGetter: (_, row) => row.stock,
     },
     {
       field: 'status',
-      headerName: 'Status',
+      headerName: tr('table.status'),
       width: 100,
       sortable: false,
       renderCell: (params) => (
         <Chip
           size="small"
-          label={params.row.isDeleted ? 'Inactive' : 'Active'}
+          label={params.row.isDeleted ? tr('table.status.inactive') : tr('table.status.active')}
           color={params.row.isDeleted ? 'default' : 'success'}
           variant={params.row.isDeleted ? 'outlined' : 'filled'}
         />
@@ -102,7 +105,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
     },
     {
       field: 'actions',
-      headerName: 'Actions',
+      headerName: tr('table.actions'),
       width: 120,
       sortable: false,
       filterable: false,
@@ -143,10 +146,10 @@ const ProductTable: React.FC<ProductTableProps> = ({
           noRowsOverlay: () => (
             <Stack height="100%" alignItems="center" justifyContent="center" spacing={1}>
               <Typography variant="subtitle1" fontWeight={700}>
-                No products found
+                {tr('table.no_rows_title')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Try changing the filters or search term.
+                {tr('table.no_rows_subtitle')}
               </Typography>
             </Stack>
           ),
