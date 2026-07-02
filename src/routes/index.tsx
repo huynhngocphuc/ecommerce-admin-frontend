@@ -30,9 +30,9 @@ const routes = [
       {
         path: PATHS.PRODUCTS,
         element: (
-          <AdminRoute>
+         // <AdminRoute>
             <ProductsPage />
-          </AdminRoute>
+         // </AdminRoute>
         ),
       },
       {
