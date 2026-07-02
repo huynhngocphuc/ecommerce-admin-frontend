@@ -1,11 +1,11 @@
 import { ENDPOINTS } from '../../../constants/endpoint';
 export const login = async (username: string, password: string) => {
     // Call API to log in
-    const response = await fetch(`${process.env.REACT_APP_API_URL}${ENDPOINTS.LOGIN}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}${ENDPOINTS.LOGIN}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.REACT_APP_AUTH_TOKEN}`
+            'Authorization': `Bearer ${import.meta.env.VITE_AUTH_TOKEN}`
         },
         body: JSON.stringify({ username, password })
     });
