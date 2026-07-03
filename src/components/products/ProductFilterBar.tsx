@@ -66,11 +66,21 @@ const ProductFilterBar: React.FC<ProductFilterBarProps> = ({ filters, onApply, o
   };
 
   return (
-    <Paper elevation={0} sx={{ p: 2.5, borderRadius: 3 }}>
-      <Stack spacing={2}>
-        <Typography variant="h6" fontWeight={800}>
-          {tr('filter.title')}
-        </Typography>
+    <Paper elevation={0} sx={{ p: { xs: 2, md: 2.5 }, borderRadius: 4 }}>
+      <Stack spacing={2.25}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          <Box>
+            <Typography variant="h6" fontWeight={700}>
+              {tr('filter.title')}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Narrow the list, then apply only the filters you need.
+            </Typography>
+          </Box>
+          <Typography variant="caption" color="text.secondary">
+            Search, status, category, and price are all server-side filters.
+          </Typography>
+        </Box>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, minmax(0, 1fr))' }, gap: 2 }}>
           <TextField fullWidth label={tr('filter.search')} value={search} onChange={(event) => setSearch(event.target.value)} />
           <TextField fullWidth select label={tr('filter.status')} value={status} onChange={(event) => setStatus(event.target.value as ProductStatus | 'all')}>
@@ -99,7 +109,7 @@ const ProductFilterBar: React.FC<ProductFilterBarProps> = ({ filters, onApply, o
           <TextField fullWidth label={tr('filter.min_price')} type="number" value={minPrice} onChange={(event) => setMinPrice(event.target.value)} />
           <TextField fullWidth label={tr('filter.max_price')} type="number" value={maxPrice} onChange={(event) => setMaxPrice(event.target.value)} />
         </Box>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} justifyContent="flex-end">
           <Button variant="contained" startIcon={<SearchOutlinedIcon />} onClick={handleApply}>
             {tr('filter.apply')}
           </Button>

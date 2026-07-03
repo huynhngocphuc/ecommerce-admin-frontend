@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../redux/store';
 import { verifyAuth } from '../redux/slices/auth.slice';
+import { PERMISSIONS } from '../constants/permissions';
 
 interface AdminRouteProps {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ interface AdminRouteProps {
 
 const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
   const dispatch = useAppDispatch();
-  const { isAuthenticated, isInitialized, userRoles } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, isInitialized, userRoles, userPermissions } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     if (!isInitialized) {
@@ -31,8 +32,11 @@ const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  const isAdmin = userRoles.includes('admin') || userRoles.includes('superadmin');
-  console.log("🚀 ~ AdminRoute ~ isAdmin:", userRoles)
+  const isAdmin =
+    userRoles.includes('admin') ||
+    userRoles.includes('superadmin') ||
+    userPermissions.includes(PERMISSIONS.PRODUCT_READ_ADMIN);
+
   if (!isAdmin) {
     return <Navigate to="/dashboard" replace />;
   }

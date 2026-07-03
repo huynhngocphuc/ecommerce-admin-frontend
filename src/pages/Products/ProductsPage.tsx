@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -10,12 +10,19 @@ import { GridPaginationModel } from '@mui/x-data-grid';
 import ProductFormDialog from '../../components/products/ProductFormDialog';
 import ProductFilterBar from '../../components/products/ProductFilterBar';
 import ProductDeleteDialog from '../../components/products/ProductDeleteDialog';
+import { PERMISSIONS } from '../../constants/permissions';
 
 const ProductsPage: React.FC = () => {
   const { t } = useTranslation('admin');
   const tr = t as unknown as (key: string) => string;
   const dispatch = useAppDispatch();
   const { items, pagination, filters, loading, isDialogOpen, isDeleteDialogOpen, formMode, selectedProduct } = useSelector((state: RootState) => state.products);
+  const { userRoles, userPermissions } = useSelector((state: RootState) => state.auth);
+
+  const isAdminRole = userRoles.includes('admin') || userRoles.includes('superadmin');
+  const canCreate = isAdminRole || userPermissions.includes(PERMISSIONS.PRODUCT_CREATE);
+  const canEdit = isAdminRole || userPermissions.includes(PERMISSIONS.PRODUCT_UPDATE);
+  const canDelete = isAdminRole || userPermissions.includes(PERMISSIONS.PRODUCT_DELETE_SOFT);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -46,22 +53,63 @@ const ProductsPage: React.FC = () => {
     dispatch(fetchProducts());
   };
 
+  const visibleCount = items.length;
+  const activeFilterLabel = filters.status === 'active' ? tr('filter.active_only') : filters.status === 'inactive' ? tr('filter.inactive_only') : tr('filter.all');
+
   return (
-    <Box sx={{ py: 3 }}>
+    <Box sx={{ py: { xs: 2, md: 3 } }}>
       <Stack spacing={3}>
-        <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={2}>
-          <Box>
-            <Typography variant="h4" component="h1" fontWeight="700" gutterBottom>
+        <Paper sx={{ p: { xs: 2.5, md: 3.5 }, borderRadius: 2 }}>
+          <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent="space-between" spacing={3}>
+            <Box sx={{ maxWidth: 760 }}>
+              <Typography variant="overline" color="text.secondary" sx={{ letterSpacing: '0.16em' }}>
+                catalog workspace
+              </Typography>
+              <Typography variant="h4" component="h1" sx={{ mt: 0.5 }}>
               {tr('products.title')}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ mt: 1.25, maxWidth: '62ch' }}>
               {tr('products.subtitle')}
-            </Typography>
-          </Box>
-          <Button variant="contained" startIcon={<AddOutlinedIcon /> } size="small" color="primary" onClick={handleCreate}>
-            {tr('products.create')}
-          </Button>
-        </Stack>
+              </Typography>
+            </Box>
+            <Stack spacing={1.5} alignItems={{ xs: 'flex-start', lg: 'flex-end' }}>
+              {canCreate && (
+                <Button variant="contained" startIcon={<AddOutlinedIcon />} onClick={handleCreate}>
+                  {tr('products.create')}
+                </Button>
+              )}
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, minmax(0, 1fr))' },
+                  gap: 1,
+                  width: '100%',
+                }}
+              >
+                <Paper sx={{ p: 1.5, borderRadius: 3, minWidth: 0 }}>
+                  <Typography variant="caption" color="text.secondary">
+                    visible rows
+                  </Typography>
+                  <Typography variant="h6">{visibleCount}</Typography>
+                </Paper>
+                <Paper sx={{ p: 1.5, borderRadius: 3, minWidth: 0 }}>
+                  <Typography variant="caption" color="text.secondary">
+                    current page
+                  </Typography>
+                  <Typography variant="h6">{pagination.page}</Typography>
+                </Paper>
+                <Paper sx={{ p: 1.5, borderRadius: 3, minWidth: 0 }}>
+                  <Typography variant="caption" color="text.secondary">
+                    filter
+                  </Typography>
+                  <Typography variant="h6" noWrap>
+                    {activeFilterLabel}
+                  </Typography>
+                </Paper>
+              </Box>
+            </Stack>
+          </Stack>
+        </Paper>
 
         <ProductFilterBar
           filters={filters}
@@ -77,6 +125,8 @@ const ProductsPage: React.FC = () => {
           loading={loading}
           paginationModel={{ page: Math.max(0, pagination.page - 1), pageSize: pagination.limit }}
           rowCount={pagination.totalItems}
+          canEdit={canEdit}
+          canDelete={canDelete}
           onPaginationModelChange={handlePaginationModelChange}
           onEdit={handleEdit}
           onDelete={handleDelete}

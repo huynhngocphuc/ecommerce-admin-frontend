@@ -37,8 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   };
   const handleLogout = () => {
     dispatch(logout());
-    console.log("Đăng xuất");
-  }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -62,55 +61,65 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
         position="sticky"
         sx={{
           backgroundColor: "background.paper",
-          borderRadius: "10px",
+          borderRadius: { xs: 0, md: "12px" },
           color: theme.palette.text.primary,
-          minHeight: "70px",
+          minHeight: { xs: "64px", md: "72px" },
           justifyContent: "center",
+          top: 0,
         }}
       >
-        <Toolbar>
-          <IconButton onClick={onMenuClick} sx={{ display: { xs: "flex", md: "none" } }}>
+        <Toolbar sx={{ minHeight: { xs: "64px", md: "72px" }, px: { xs: 1.5, md: 2.5 } }}>
+          <IconButton onClick={onMenuClick} sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
             <MenuIcon />
           </IconButton>
           <Stack
             direction="row"
-            sx={{ flexGrow: 1, justifyContent: "flex-end", alignItems: "center" }}
-            spacing={1}
+            sx={{ flexGrow: 1, justifyContent: "flex-end", alignItems: "center", gap: 1 }}
           >
-            <Box>
-              <IconButton color="inherit" className="btn-rounded-circle-40">
-                <Badge badgeContent={3} color="info">
-                  <NotificationImportantOutlinedIcon sx={{ fontSize: "20px" }} />
-                </Badge>
-              </IconButton>
+            <IconButton color="inherit" className="btn-rounded-circle-40" sx={{ backgroundColor: "transparent", border: '1px solid', borderColor: 'divider' }}>
+              <Badge badgeContent={3} color="info">
+                <NotificationImportantOutlinedIcon sx={{ fontSize: "20px" }} />
+              </Badge>
+            </IconButton>
+            <Box sx={{ px: { xs: 0, md: 0.5 } }}>
+              <LanguageSwitcher />
             </Box>
-              <Box sx={{ px: 1 }}>
-                <LanguageSwitcher />
-              </Box>
-            {/* Thêm ref vào Box container */}
             <Box sx={{ position: "relative" }} ref={profileRef}>
-              <Button sx={{ borderRadius: "20px", minWidth: "64px" }} onClick={handleProfileToggle}>
-                <Avatar alt="Sharp" src="images/logo_black.png" />
-                <Box sx={{ marginLeft: "16px" }}>
-                  <Typography variant="body1" fontSize="1.2rem" sx={{ textTransform: "none" }}>
-                    Peter
+              <Button
+                onClick={handleProfileToggle}
+                sx={{
+                  px: 1.25,
+                  py: 0.75,
+                  minWidth: { xs: "auto", sm: 220 },
+                  justifyContent: "flex-start",
+                  gap: 1.25,
+                  textAlign: "left",
+                  backgroundColor: "transparent",
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+              >
+                <Avatar alt="Peter Nguyen" src="/images/logo_black.png" sx={{ width: 40, height: 40 }} />
+                <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                  <Typography variant="body1" sx={{ textTransform: "none", lineHeight: 1.2, fontWeight: 600 }}>
+                    Peter Nguyen
                   </Typography>
-                  <Typography variant="body2" sx={{ fontSize: "14px", textTransform: "none" }}>
-                    admin
+                  <Typography variant="caption" sx={{ display: "block", color: "text.secondary", textTransform: "none" }}>
+                    {tr("admin_role")}
                   </Typography>
                 </Box>
               </Button>
-            
-
               {showProfile && (
                 <Box
                   sx={{
                     position: "absolute",
                     backgroundColor: "background.paper",
-                    top: "60px",
+                    top: "64px",
                     right: 0,
                     minWidth: "200px",
-                    boxShadow: 3,
+                    boxShadow: "none",
+                    border: '1px solid',
+                    borderColor: 'divider',
                     borderRadius: 2,
                     p: 2,
                     zIndex: 1000,
@@ -119,10 +128,10 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
                   <Typography sx={{ textTransform: "none" }}>{tr("user_profile")}</Typography>
                   <Divider sx={{ my: 1 }} />
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Avatar alt="Sharp" src="images/logo_black.png" />
+                    <Avatar alt="Peter Nguyen" src="/images/logo_black.png" />
                     <Box>
                       <Typography variant="body1" fontSize="1rem" sx={{ textTransform: "none" }}>
-                        Peter
+                        Peter Nguyen
                       </Typography>
                       <Typography variant="body2" sx={{ fontSize: "12px", textTransform: "none" }}>
                         {tr("admin_role")}

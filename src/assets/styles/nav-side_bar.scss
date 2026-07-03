@@ -1,56 +1,53 @@
 @use 'variables' as *;
-.sidebarBox {
-  height: calc(100% - 40px);
-  background-color: #ffffff;
-  width: 274px;
-  top: 20px;
-  left: 20px;
-  position: fixed;
-  box-shadow: $box-shadow-default;
-  border-radius: 10px;
-}
 
 .logo {
   height: 74px;
   padding: 0 10px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+
   .logo_link {
     display: flex;
     height: 100%;
     text-decoration: none;
     align-items: center;
+
     .logo_img {
       border-radius: 20%;
       height: 100%;
     }
+
     .logo_text {
-      font-size: 40px;
+      font-size: 32px;
       font-weight: 700;
-      font-family: cursive;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
       margin: 0 0 0 10px;
-      color: #000000;
+      color: #1f2937;
     }
   }
 }
+
 .sidebarMenu {
   height: calc(100% - 200px);
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-gutter: stable;
-  padding: 0 0 0 20px!important;
+  padding: 0 0 0 20px !important;
+
   .MuiListItemButton-root {
-    // transition: background-color 0.3s ease, color 0.3s ease;
-    // &:hover {
-    //   background-color: rgba($primary-color, 0.1);
-    //   color: rgba($primary-color, 0.9);
-    // }
+    border-radius: 14px;
+    margin-right: 12px;
+    transition: background-color 180ms ease, transform 180ms ease;
+
+    &:hover {
+      transform: translateX(2px);
+    }
   }
 }
 
-.btn-rounded-circle-40{
+.btn-rounded-circle-40 {
   min-width: 40px !important;
-    padding: 0 !important;
-    height: 40px;
-    border-radius: 100% !important;
+  padding: 0 !important;
+  height: 40px;
+  border-radius: 100% !important;
 }

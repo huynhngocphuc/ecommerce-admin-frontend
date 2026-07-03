@@ -74,7 +74,7 @@ export const LanguageSwitcher: React.FC = () => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleOpen}
         sx={{
-          borderRadius: '12px',
+          borderRadius: '8px',
           px: 0,
           py: 0,
           borderColor: 'divider',
@@ -111,10 +111,10 @@ export const LanguageSwitcher: React.FC = () => {
             elevation: 0,
             sx: {
               mt: 1,
-              borderRadius: '14px',
+              borderRadius: '8px',
               border: '1px solid',
               borderColor: 'divider',
-              boxShadow: '0 12px 28px rgba(16, 24, 40, 0.12)',
+              boxShadow: 'none',
               minWidth: 200,
             },
           },

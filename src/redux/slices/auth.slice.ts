@@ -1,6 +1,7 @@
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Role } from '../../features/auth/type';
+import { Permission } from '../../constants/permissions';
 import { showLoading, hideLoading, } from './loading.slice';
 import { addAlert, clearAlerts } from './stackAlert.slice';
 import { http } from '../../utils/http';
@@ -9,6 +10,7 @@ import { ENDPOINTS } from '../../constants/endpoint';
 type AuthState = {
   isAuthenticated: boolean;
   userRoles: Role[];
+  userPermissions: Permission[];
   isInitialized: boolean;
   userId: string | null;
 };
@@ -16,6 +18,7 @@ type AuthState = {
 const initialState: AuthState = {
   isAuthenticated: false,
   userRoles: [],
+  userPermissions: [],
   isInitialized: false,
   userId: null,
 };
@@ -25,6 +28,7 @@ type AuthUserPayload = {
   email?: string;
   role?: Role | Role[];
   roles?: Role[];
+  permissions?: string[];
 };
 
 const allowedRoles: Role[] = ['user', 'admin', 'superadmin'];
@@ -42,6 +46,11 @@ const normalizeRoles = (user?: AuthUserPayload): Role[] => {
       [...fromRoles, ...fromRole].filter((role): role is Role => allowedRoles.includes(role))
     )
   );
+};
+
+const normalizePermissions = (user?: AuthUserPayload): Permission[] => {
+  const permissions = Array.isArray(user?.permissions) ? user.permissions : [];
+  return Array.from(new Set(permissions.filter((permission): permission is Permission => typeof permission === 'string' && permission.trim() !== '')));
 };
 
 const extractAuthUser = (payload: any): AuthUserPayload | undefined => {
@@ -75,7 +84,7 @@ export const verifyAuth = createAsyncThunk('auth/verify', async (
   _, { rejectWithValue, dispatch }
 ) => {
   try {
-    const resp = await http.get(ENDPOINTS.VERIFY_AUTH);
+    const resp = await http.get(ENDPOINTS.ME);
     if (!resp.success) {
       dispatch(hideLoading());
       return rejectWithValue(resp);
@@ -123,10 +132,12 @@ const authSlice = createSlice({
       state.isInitialized = true;
       state.userId = extractAuthUser(action.payload)?.id || null;
       state.userRoles = normalizeRoles(extractAuthUser(action.payload));
+      state.userPermissions = normalizePermissions(extractAuthUser(action.payload));
     });
     builder.addCase(login.rejected, (state, action) => {
       state.isAuthenticated = false;
       state.userRoles = [];
+      state.userPermissions = [];
       state.userId = null;
       state.isInitialized = true;
     });
@@ -135,22 +146,26 @@ const authSlice = createSlice({
       state.isInitialized = true;
       state.userId = extractAuthUser(action.payload)?.id || null;
       state.userRoles = normalizeRoles(extractAuthUser(action.payload));
+      state.userPermissions = normalizePermissions(extractAuthUser(action.payload));
     });
     builder.addCase(verifyAuth.rejected, (state, action) => {
       state.isAuthenticated = false;
       state.isInitialized = true;
       state.userRoles = [];
+      state.userPermissions = [];
       state.userId = null;
     });
     builder.addCase(logout.fulfilled, (state) => {
       state.isAuthenticated = false;
       state.userRoles = [];
+      state.userPermissions = [];
       state.isInitialized = true;
       state.userId = null;
     });
     builder.addCase(logout.rejected, (state) => {
       state.isAuthenticated = false;
       state.userRoles = [];
+      state.userPermissions = [];
       state.userId = null;
     });
   }

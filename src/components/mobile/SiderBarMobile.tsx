@@ -2,7 +2,7 @@ import { Collapse, List, ListItem, ListItemButton, ListItemIcon, Tooltip } from 
 import React from "react";
 import { MenuItem } from "../Sidebar";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface SiderMenuMobileProps {
   menuItems: MenuItem[];
@@ -15,6 +15,10 @@ const SiderBarMobile: React.FC<SiderMenuMobileProps> = ({
   openSubmenu,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isActive = (path?: string) => Boolean(path && (location.pathname === path || location.pathname.startsWith(`${path}/`)));
+
   return (
     <List
       sx={{
@@ -47,8 +51,16 @@ const SiderBarMobile: React.FC<SiderMenuMobileProps> = ({
                     navigate(item.path || "/");
                   }
                 }}
+                selected={isActive(item.path)}
+                sx={{
+                  mx: 1,
+                  borderRadius: 2,
+                  '&.Mui-selected': {
+                    backgroundColor: 'rgba(41, 71, 102, 0.12)',
+                  },
+                }}
               >
-                <ListItemIcon sx={{ minWidth: "20px" }}>{item.icon}</ListItemIcon>
+                <ListItemIcon sx={{ minWidth: "20px", color: 'text.secondary' }}>{item.icon}</ListItemIcon>
                 {item.children && (openSubmenu === item.text ? <ExpandLess /> : <ExpandMore />)}
               </ListItemButton>
             </Tooltip>
@@ -64,8 +76,16 @@ const SiderBarMobile: React.FC<SiderMenuMobileProps> = ({
                         onClick={() => {
                           navigate(child.path || "/");
                         }}
+                        selected={isActive(child.path)}
+                        sx={{
+                          mx: 1,
+                          borderRadius: 2,
+                          '&.Mui-selected': {
+                            backgroundColor: 'rgba(183, 121, 56, 0.12)',
+                          },
+                        }}
                       >
-                        <ListItemIcon sx={{ minWidth: 0 }}>{child.icon}</ListItemIcon>
+                        <ListItemIcon sx={{ minWidth: 0, color: 'text.secondary' }}>{child.icon}</ListItemIcon>
                       </ListItemButton>
                     </Tooltip>
                   </ListItem>

@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { MenuItem } from "../Sidebar";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface SiderMenuWebProps {
   menuItems: MenuItem[];
@@ -22,6 +22,10 @@ const SiderBarWeb: React.FC<SiderMenuWebProps> = ({
   openSubmenu,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isActive = (path?: string) => Boolean(path && (location.pathname === path || location.pathname.startsWith(`${path}/`)));
+
   return (
     <List
       sx={{
@@ -55,8 +59,21 @@ const SiderBarWeb: React.FC<SiderMenuWebProps> = ({
                   navigate(item.path || "/");
                 }
               }}
+              selected={isActive(item.path)}
+              sx={{
+                mx: 1.5,
+                my: 0.25,
+                borderRadius: 2,
+                minHeight: 48,
+                '&.Mui-selected': {
+                  backgroundColor: 'rgba(41, 71, 102, 0.12)',
+                },
+                '&.Mui-selected:hover': {
+                  backgroundColor: 'rgba(41, 71, 102, 0.16)',
+                },
+              }}
             >
-              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{ minWidth: 40, color: 'text.secondary' }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
               {item.children && (openSubmenu === item.text ? <ExpandLess /> : <ExpandMore />)}
             </ListItemButton>
@@ -72,8 +89,20 @@ const SiderBarWeb: React.FC<SiderMenuWebProps> = ({
                     sx={{ pl: 2 }}
                     onClick={() => navigate(child.path || "/")}
                   >
-                    <ListItemButton>
-                      <ListItemIcon>{child.icon}</ListItemIcon>
+                    <ListItemButton
+                      selected={isActive(child.path)}
+                      sx={{
+                        ml: 1.5,
+                        mr: 1,
+                        mb: 0.25,
+                        borderRadius: 2,
+                        minHeight: 42,
+                        '&.Mui-selected': {
+                          backgroundColor: 'rgba(183, 121, 56, 0.12)',
+                        },
+                      }}
+                    >
+                      <ListItemIcon sx={{ minWidth: 36, color: 'text.secondary' }}>{child.icon}</ListItemIcon>
                       <ListItemText primary={child.text} />
                     </ListItemButton>
                   </ListItem>

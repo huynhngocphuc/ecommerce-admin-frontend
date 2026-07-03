@@ -28,25 +28,28 @@ const MainLayout: React.FC = () => {
   return (
     <Box
       sx={{
+        position: "relative",
         backgroundColor: "background.default",
         width: "100%",
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
-        padding: theme.spacing(2),
+        padding: { xs: 1.5, md: 2.5 },
         boxSizing: "border-box",
-        gap: theme.spacing(2),
+        gap: { xs: 1.5, md: 2.5 },
+        overflow: "hidden",
       }}
     >
       <Drawer
         sx={{
-          height: `calc(100vh - ${theme.spacing(4)})`,
+          height: "100%",
           width: isMobile ? undefined : drawerPaperWidth,
           "& .MuiDrawer-paper": {
-            top: theme.spacing(2),
-            left: theme.spacing(2),
-            height: `calc(100vh - ${theme.spacing(4)})`,
+            top: { xs: 0, md: theme.spacing(2.5) },
+            left: { xs: 0, md: theme.spacing(2.5) },
+            height: { xs: "100%", md: `calc(100dvh - ${theme.spacing(5)})` },
             width: drawerPaperWidth,
-            borderRadius: 2,
+            borderRadius: { xs: 0, md: 4 },
+            overflow: "hidden",
           },
         }}
         variant={isMobile ? "temporary" : "permanent"}
@@ -63,12 +66,12 @@ const MainLayout: React.FC = () => {
           minWidth: 0,
           display: "flex",
           flexDirection: "column",
-          gap: theme.spacing(2),
+          gap: { xs: 1.5, md: 2.5 },
         }}
       >
-        <Container maxWidth="lg" sx={{ width: "100%", minWidth: 0 }}>
+        <Container maxWidth="xl" sx={{ width: "100%", minWidth: 0, display: "flex", flexDirection: "column", gap: { xs: 1.5, md: 2.5 }, px: { xs: 0, md: 0 } }}>
           <Navbar onMenuClick={handleDrawerToggle} />
-          <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+          <Box component="main" sx={{ flexGrow: 1, minWidth: 0, pb: { xs: 2, md: 4 } }}>
             <Outlet />
           </Box>
         </Container>

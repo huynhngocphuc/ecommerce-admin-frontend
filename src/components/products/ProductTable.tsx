@@ -19,6 +19,8 @@ interface ProductTableProps {
   loading: boolean;
   paginationModel: GridPaginationModel;
   rowCount: number;
+  canEdit?: boolean;
+  canDelete?: boolean;
   onPaginationModelChange: (model: GridPaginationModel) => void;
   onEdit: (product: Product) => void;
   onDelete: (product: Product) => void;
@@ -32,6 +34,8 @@ const ProductTable: React.FC<ProductTableProps> = ({
   loading,
   paginationModel,
   rowCount,
+  canEdit = true,
+  canDelete = true,
   onPaginationModelChange,
   onEdit,
   onDelete,
@@ -75,7 +79,11 @@ const ProductTable: React.FC<ProductTableProps> = ({
       field: 'price',
       headerName: tr('table.price'),
       width: 140,
-      renderCell: (params) => formatCurrency(Number(params.row.price || 0)),
+      renderCell: (params) => (
+        <Typography variant="body2" sx={{ fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
+          {formatCurrency(Number(params.row.price || 0))}
+        </Typography>
+      ),
     },
     {
       field: 'category',
@@ -111,19 +119,23 @@ const ProductTable: React.FC<ProductTableProps> = ({
       filterable: false,
       renderCell: (params) => (
         <Box>
-          <IconButton aria-label="edit product" size="small" onClick={() => onEdit(params.row)}>
-            <EditOutlinedIcon fontSize="small" />
-          </IconButton>
-          <IconButton aria-label="delete product" size="small" onClick={() => onDelete(params.row)}>
-            <DeleteOutlineOutlinedIcon fontSize="small" />
-          </IconButton>
+          {canEdit && (
+            <IconButton aria-label="edit product" size="small" onClick={() => onEdit(params.row)}>
+              <EditOutlinedIcon fontSize="small" />
+            </IconButton>
+          )}
+          {canDelete && (
+            <IconButton aria-label="delete product" size="small" onClick={() => onDelete(params.row)}>
+              <DeleteOutlineOutlinedIcon fontSize="small" />
+            </IconButton>
+          )}
         </Box>
       ),
     },
   ];
 
   return (
-    <Paper elevation={0} sx={{ borderRadius: 3, overflow: 'hidden' }}>
+    <Paper elevation={0} sx={{ borderRadius: 4, overflow: 'hidden' }}>
       <DataGrid
         autoHeight
         rows={rows}
@@ -138,8 +150,17 @@ const ProductTable: React.FC<ProductTableProps> = ({
         disableRowSelectionOnClick
         sx={{
           border: 0,
+          backgroundColor: 'background.paper',
           '& .MuiDataGrid-columnHeaders': {
-            backgroundColor: 'grey.50',
+            backgroundColor: 'rgba(41, 71, 102, 0.05)',
+            borderBottomColor: 'divider',
+            fontWeight: 700,
+          },
+          '& .MuiDataGrid-cell': {
+            borderColor: 'rgba(31, 41, 55, 0.06)',
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: 'rgba(41, 71, 102, 0.04)',
           },
         }}
         slots={{

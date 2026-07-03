@@ -105,31 +105,51 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
         display: "flex",
         flexDirection: "column",
         height: "100%",
+        background: "background.paper",
       }}
     >
       <Box
-        sx={{ p: 2, position: "sticky", top: 0, backgroundColor: "background.paper", zIndex: 1 }}
+        sx={{
+          p: 2,
+          position: "sticky",
+          top: 0,
+          backgroundColor: "background.paper",
+          zIndex: 1,
+          borderBottom: 1,
+          borderColor: "divider",
+        }}
       >
         <Box
-          sx={{ display: "flex", alignItems: "center", gap: 1, cursor: "pointer" }}
+          sx={{ display: "flex", alignItems: "center", gap: 1.5, cursor: "pointer" }}
           onClick={() => {
             navigate(PATHS.HOME);
           }}
         >
           <Avatar
             sx={{
-              width: 40,
-              height: 40,
-              bgcolor: "transparent",
+              width: 44,
+              height: 44,
+              bgcolor: "rgba(17, 17, 17, 0.04)",
+              border: 1,
+              borderColor: "divider",
             }}
           >
             <img
               src="/images/logo_black.png"
               alt="Logo"
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: "70%", height: "70%", objectFit: "contain" }}
             />
           </Avatar>
-          {drawerOpen ? <Typography variant="h6">{tr("sidebar_title")}</Typography> : null}
+          {drawerOpen ? (
+            <Box>
+              <Typography variant="h6" sx={{ lineHeight: 1.1 }}>
+                {tr("sidebar_title")}
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ display: "block" }}>
+                Store operations
+              </Typography>
+            </Box>
+          ) : null}
         </Box>
       </Box>
       <Divider />
@@ -154,7 +174,15 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
       )}
       <Divider />
       <Box
-        sx={{ p: 2, position: "sticky", bottom: 0, backgroundColor: "background.paper", zIndex: 1 }}
+        sx={{
+          p: 2,
+          position: "sticky",
+          bottom: 0,
+          backgroundColor: "background.paper",
+          zIndex: 1,
+          borderTop: 1,
+          borderColor: "divider",
+        }}
       >
         <ButtonBase
           sx={{
@@ -162,9 +190,11 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerOpen, handleDrawerToggle }) => 
             width: "100%",
             height: "48px",
             justifyContent: "start",
-            borderRadius: 1,
+            borderRadius: 2,
+            px: 1.5,
             "&:hover": {
               backgroundColor: "action.hover",
+              transform: "translateY(-1px)",
             },
           }}
           onClick={handleDrawerToggle}

@@ -4,7 +4,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Slide from "@mui/material/Slide";
 import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useAppDispatch } from "../redux/store";
 import { useEffect, useState } from "react";
 
@@ -47,7 +47,7 @@ export default function StackAlert() {
   }, [alerts, removingIds]);
 
   return alerts.length > 0 ? (
-    <Stack sx={{ width: "30%" }} spacing={2} position="fixed" top={16} right={16} zIndex={9999}>
+    <Stack sx={{ width: { xs: 'calc(100vw - 24px)', sm: 'min(420px, calc(100vw - 32px))' } }} spacing={1.5} position="fixed" top={16} right={16} zIndex={(theme) => theme.zIndex.modal + 2}>
       {alerts.map((alert) => (
         <Slide 
           key={alert.id} 
@@ -72,7 +72,11 @@ export default function StackAlert() {
               </IconButton>
             }
             sx={{
-               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              boxShadow: 'none',
+              borderRadius: 2,
+              alignItems: 'flex-start',
+              border: '1px solid',
+              borderColor: 'divider',
             }}
           >
             <AlertTitle sx={{ fontWeight: "bold" }} textTransform="capitalize">
